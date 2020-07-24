@@ -15,6 +15,18 @@ module Enumerable
     self
   end
 
+  def variable_check(arg)
+    if arg.class == NilClass
+      'NilClass'
+    elsif arg.class == Integer
+      'Integer'
+    elsif arg.class == Class
+      'Class'
+    elsif arg.class == Regexp
+      'Regexp'
+    end
+  end
+
   def my_each(&block)
     if self.class == Hash
       hash_iterator(&block)
@@ -41,11 +53,22 @@ module Enumerable
     end
   end
 
-  def my_all?(_arg = nil, &block)
+  def my_all?(arg = nil, &block)
     if block_given?
       my_select(&block).length == length
     else
-      arg.class
+      case variable_check(arg)
+      when 'Regexp'
+        'Regexp'
+      when 'Integer'
+        'Integer'
+      when 'NilClass'
+        'NilClass'
+      when 'Class'
+        arg
+      else
+        'Variable Class not found'
+      end
     end
   end
 
@@ -53,15 +76,15 @@ module Enumerable
     if block_given?
       !my_select(&block).empty?
     else
-      arg.class
+      variable_check(arg)
     end
   end
 
-  def my_none?(_arg = nil, &block)
+  def my_none?(arg = nil, &block)
     if block_given?
       my_select(&block).empty?
     else
-      arg.class
+      variable_check(arg)
     end
   end
 
@@ -69,28 +92,27 @@ module Enumerable
     if block_given?
       my_select(&block).length
     else
-      arg.class
+      variable_check(arg)
     end
   end
 end
 
-p Numeric.class
-# p %w[ant bear cat].my_all?(/t/) #=> false  # DOES NOT WORK YET
+p %w[ant bear cat].my_all?(/t/) #=> false  # DOES NOT WORK YET
 p [1, 2i, 3.14].my_all?(Numeric) #=> true  # DOES NOT WORK YET
-# #p [nil, true, 99].my_all? # DOES NOT WORK YET
-# p [].my_all? #=> true  # DOES NOT WORK YET
+p [nil, true, 99].my_all? # DOES NOT WORK YET
+p [].my_all? #=> true  # DOES NOT WORK YET
 
 p %w[ant bear cat].my_any?(2) #=> false  # DOES NOT WORK YET
-# p [nil, true, 99].my_any?(Integer) #=> true  # DOES NOT WORK YET
-# p [nil, true, 99].my_any? #=> true  # DOES NOT WORK YET
-# p [].my_any? #=> false  # DOES NOT WORK YET
+p [nil, true, 99].my_any?(Integer) #=> true  # DOES NOT WORK YET
+p [nil, true, 99].my_any? #=> true  # DOES NOT WORK YET
+p [].my_any? #=> false  # DOES NOT WORK YET
 
-# p %w[ant bear cat].my_none?(/d/) #=> true  # DOES NOT WORK YET
-# p [1, 3.14, 42].my_none?(Float) #=> false  # DOES NOT WORK YET
-# p [].my_none? #=> true  # DOES NOT WORK YET
-# p [nil].my_none? #=> true  # DOES NOT WORK YET
-# p [nil, false].my_none? #=> true  # DOES NOT WORK YET
-# p [nil, false, true].my_none? #=> false  # DOES NOT WORK YET
+p %w[ant bear cat].my_none?(/d/) #=> true  # DOES NOT WORK YET
+p [1, 3.14, 42].my_none?(Float) #=> false  # DOES NOT WORK YET
+p [].my_none? #=> true  # DOES NOT WORK YET
+p [nil].my_none? #=> true  # DOES NOT WORK YET
+p [nil, false].my_none? #=> true  # DOES NOT WORK YET
+p [nil, false, true].my_none? #=> false  # DOES NOT WORK YET
 
-# p array.my_count #=> 4 # DOES NOT WORK YET
-# p array.my_count(2) #=> 2 # DOES NOT WORK YET
+p array.my_count #=> 4 # DOES NOT WORK YET
+p array.my_count(2) #=> 2 # DOES NOT WORK YET
