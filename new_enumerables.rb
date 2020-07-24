@@ -1,12 +1,12 @@
 require 'pry'
 
 hash = { type: 'tree', fruit: false, count: 3 }
+hash2 = { apples: 10, oranges: 5, bananas: 1 }
 array = [5, 4, 3, 2, 1, 'hello', 'world']
 
 module Enumerable
   def hash_iterator(&block)
     0.upto(length - 1) { |ind| block.call(keys[ind], values[ind]) }
-
     self
   end
 
@@ -33,25 +33,13 @@ module Enumerable
       array_iterator { |n| query << n if block.call(n) == true }
       query
     elsif self.class == Hash
-      return 'This is a hash'
       query = {}
-      hash_iterator { |v| p 'yay' if block.call(v) == true; }
-      # p stock.my_select { |_k, v| v > 1 } - DOES NOT WORK YET
-      # self
+      0.upto(length - 1) do |ind|
+        query[keys[ind]] = values[ind] unless block.call(keys[ind], values[ind]) == false
+      end
+      query
     end
   end
 end
 
-even_numbers = []
-[1, 2, 3, 4, 5, 6].select { |n| even_numbers << n if n.even? }
-p even_numbers
-
-p [1, 2, 3, 4, 5, 6].select { |n| n.even? }
-p [1, 2, 3, 4, 5, 6].select(&:even?)
-
-stock = {
-  apples: 10,
-  oranges: 5,
-  bananas: 1
-}
-p stock.my_select { |_k, v| v > 1 }
+p hash2.my_select { |_k, v| v > 1 } #- DOES NOT WORK YET
