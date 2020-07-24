@@ -27,11 +27,24 @@ module Enumerable
   end
 end
 
+def my_select
+  ary = self
+  ary = ary.is_a?(Array) ? ary : ary.to_a
+  return enum_for unless block_given?
+
+  filtered_ary = []
+  x = 0
+  while x < ary.length
+    filtered_ary << ary[x] if yield(ary[x]) == true
+    x += 1
+  end
+  filtered_ary
+end
 # array.each { |val| p "Hello, this is my value: #{val}" }
 array.my_each { |val| p "Hello, this is my value: #{val}" }
 
 # array.each_with_index { |val, ind| p "Hello, this is my value: #{val} at index: #{ind}" }
-# array.my_each_with_index { |val, ind| p "Hello, this is my value: #{val} at index: #{ind}" }
+array.my_each_with_index { |val, ind| p "Hello, this is my value: #{val} at index: #{ind}" }
 
 # p %w[ant bear cat].any? { |word| word.length >= 3 } #=> true
 # p %w[ant bear cat].any? { |word| word.length >= 4 } #=> true

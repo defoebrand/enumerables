@@ -41,3 +41,10 @@ module Enumerable
     end
   end
 end
+even_numbers = []   
+[1, 2, 3, 4, 5, 6].select { |n| even_numbers << n if n.even? }  
+ p even_numbers      
+  p [1, 2, 3, 4, 5, 6].select { |n| n.even? }   
+  p [1, 2, 3, 4, 5, 6].select(&:even?)      
+   stock = { apples: 10,  oranges: 5,  bananas: 1 }   
+   p stock.my_select { |_k, v| v > 1 }
