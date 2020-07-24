@@ -97,6 +97,14 @@ module Enumerable
   end
 end
 
+even_numbers = []
+[1, 2, 3, 4, 5, 6].select { |n| even_numbers << n if n.even? }
+p even_numbers
+p [1, 2, 3, 4, 5, 6].select { |n| n.even? }
+p [1, 2, 3, 4, 5, 6].select(&:even?)
+stock = { apples: 10, oranges: 5, bananas: 1 }
+p stock.my_select { |_k, v| v > 1 }
+
 p %w[ant bear cat].my_all?(/t/) #=> false  # DOES NOT WORK YET
 p [1, 2i, 3.14].my_all?(Numeric) #=> true  # DOES NOT WORK YET
 p [nil, true, 99].my_all? # DOES NOT WORK YET
@@ -114,5 +122,5 @@ p [nil].my_none? #=> true  # DOES NOT WORK YET
 p [nil, false].my_none? #=> true  # DOES NOT WORK YET
 p [nil, false, true].my_none? #=> false  # DOES NOT WORK YET
 
-p array.my_count #=> 4 # DOES NOT WORK YET
-p array.my_count(2) #=> 2 # DOES NOT WORK YET
+# p array.my_count #=> 4 # DOES NOT WORK YET
+# p array.my_count(2) #=> 2 # DOES NOT WORK YET
