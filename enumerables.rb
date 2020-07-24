@@ -151,46 +151,46 @@ end
 
 
 
-# stooges = %w[Larry Curly Moe]
-# p stooges.my_each { |stooge, i| print stooge + "\n" + i.to_s }
-#
-# contact_info = { 'name' => 'Bob', 'phone' => '111-111-1111' }
-# p contact_info.my_each_with_index { |key, value| print key + ' = ' + value + "\n" }
-#
-# even_numbers = []
-# [1, 2, 3, 4, 5, 6].my_select { |n| even_numbers << n if n.even? }
-# p even_numbers
-# p [1, 2, 3, 4, 5, 6].my_select { |n| n.even? }
-# p [1, 2, 3, 4, 5, 6].my_select(&:even?)
-# stock = { apples: 10, oranges: 5, bananas: 1 }
-# p stock.my_select { |_k, v| v > 1 }
-#
-# p %w[ant bear cat].my_all? { |word| word.length >= 3 } #=> true
-# p %w[ant bear cat].my_all? { |word| word.length >= 4 } #=> false
-# p [1, 2i, 3.14].my_all?(Integer) #=> true
-# p [nil, true, 99].my_all? #=> false
-# p [].my_all? #=> true
-# p %w[ant bear cat].my_all?(/t/) #=> false  # DOES NOT WORK YET
-#
-# p %w[ant bear cat].my_any? { |word| word.length >= 3 } #=> true
-# p %w[ant bear cat].my_any? { |word| word.length >= 4 } #=> true
-# p [nil, true, 99].my_any?(Integer) #=> true
-# p [nil, false].my_any? #=> true
-# p [].my_any? #=> false
-# p %w[ant bear cat].my_any?(/d/) #=> false  # DOES NOT WORK YET
+stooges = %w[Larry Curly Moe]
+p stooges.my_each { |stooge, i| print stooge + "\n" + i.to_s }
 
-# p %w[ant bear cat].my_none? { |word| word.length == 5 } #=> true
-# p %w[ant bear cat].my_none? { |word| word.length >= 4 } #=> false
-# p [1, 3.14, 42].my_none?(Float) #=> false
-# p [].my_none? #=> true
-# p [nil].my_none? #=> true
-# p [nil, false].my_none? #=> true
-# p [nil, false, true].my_none? #=> false
-# p %w[ant bear cat].my_none?(/t/) #=> true  # DOES NOT WORK YET
-#
-# p array.my_count #=> 7
-# p array.my_count(2) #=> 1
-# p num_array.my_count { |x| x.even? } #=> 4
+contact_info = { 'name' => 'Bob', 'phone' => '111-111-1111' }
+p contact_info.my_each_with_index { |key, value| print key + ' = ' + value + "\n" }
+
+even_numbers = []
+[1, 2, 3, 4, 5, 6].my_select { |n| even_numbers << n if n.even? }
+p even_numbers
+p [1, 2, 3, 4, 5, 6].my_select { |n| n.even? }
+p [1, 2, 3, 4, 5, 6].my_select(&:even?)
+stock = { apples: 10, oranges: 5, bananas: 1 }
+p stock.my_select { |_k, v| v > 1 }
+
+p %w[ant bear cat].my_all? { |word| word.length >= 3 } #=> true
+p %w[ant bear cat].my_all? { |word| word.length >= 4 } #=> false
+p [1, 2i, 3.14].my_all?(Integer) #=> true
+p [nil, true, 99].my_all? #=> false
+p [].my_all? #=> true
+p %w[ant bear cat].my_all?(/t/) #=> false  # DOES NOT WORK YET
+
+p %w[ant bear cat].my_any? { |word| word.length >= 3 } #=> true
+p %w[ant bear cat].my_any? { |word| word.length >= 4 } #=> true
+p [nil, true, 99].my_any?(Integer) #=> true
+p [nil, false].my_any? #=> true
+p [].my_any? #=> false
+p %w[ant bear cat].my_any?(/d/) #=> false  # DOES NOT WORK YET
+
+p %w[ant bear cat].my_none? { |word| word.length == 5 } #=> true
+p %w[ant bear cat].my_none? { |word| word.length >= 4 } #=> false
+p [1, 3.14, 42].my_none?(Float) #=> false
+p [].my_none? #=> true
+p [nil].my_none? #=> true
+p [nil, false].my_none? #=> true
+p [nil, false, true].my_none? #=> false
+p %w[ant bear cat].my_none?(/t/) #=> true  # DOES NOT WORK YET
+
+p array.my_count #=> 7
+p array.my_count(2) #=> 1
+p num_array.my_count { |x| x.even? } #=> 4
 
 
 

@@ -53,6 +53,7 @@ module Enumerable
       query = {}
       0.upto(length - 1) do |ind|
         query[keys[ind]] = values[ind] unless block.call(keys[ind], values[ind]) == false
+        query
       end
       query
     end
@@ -128,7 +129,11 @@ module Enumerable
     end
   end
 
-  def my_map; end
+  def my_map
+    query = []
+    array_iterator { |n| query << yield(n) }
+    query
+  end
 
   def my_inject; end
 end
@@ -138,7 +143,7 @@ end
 #
 # contact_info = { 'name' => 'Bob', 'phone' => '111-111-1111' }
 # p contact_info.my_each_with_index { |key, value| print key + ' = ' + value + "\n" }
-#
+# #
 # even_numbers = []
 # [1, 2, 3, 4, 5, 6].my_select { |n| even_numbers << n if n.even? }
 # p even_numbers
@@ -173,3 +178,10 @@ end
 # p array.my_count #=> 7
 # p array.my_count(2) #=> 1
 # p num_array.my_count { |x| x.even? } #=> 4
+# #
+# a = %w[a b c d]
+# p a.my_map { |x| x + '!' } #=> ["a!", "b!", "c!", "d!"]
+# # p a #=> ["a", "b", "c", "d"]
+# #
+# p [1, 2, 3, 4].my_map { |i| i * i } #=> [1, 4, 9, 16]
+# p [1, 2, 3, 4].my_map { 'cat' } #=> ["cat", "cat", "cat", "cat"]
