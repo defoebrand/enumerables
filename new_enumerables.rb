@@ -3,30 +3,31 @@ require 'pry'
 hash = { type: 'tree', fruit: false, count: 3 }
 hash2 = { apples: 10, oranges: 5, bananas: 1 }
 array = [5, 4, 3, 2, 1, 'hello', 'world']
+num_array = [9, 8, 7, 6, 2, 3, 4, 5]
+
+def hash_iterator(&block)
+  0.upto(length - 1) { |ind| block.call(keys[ind], values[ind]) }
+  self
+end
+
+def array_iterator(&block)
+  0.upto(length - 1) { |ind| block.call(self[ind], ind) }
+  self
+end
+
+def variable_check(arg)
+  if arg.class == NilClass
+    'NilClass'
+  elsif arg.class == Integer
+    'Integer'
+  elsif arg.class == Class
+    'Class'
+  elsif arg.class == Regexp
+    'Regexp'
+  end
+end
 
 module Enumerable
-  def hash_iterator(&block)
-    0.upto(length - 1) { |ind| block.call(keys[ind], values[ind]) }
-    self
-  end
-
-  def array_iterator(&block)
-    0.upto(length - 1) { |ind| block.call(self[ind], ind) }
-    self
-  end
-
-  def variable_check(arg)
-    if arg.class == NilClass
-      'NilClass'
-    elsif arg.class == Integer
-      'Integer'
-    elsif arg.class == Class
-      'Class'
-    elsif arg.class == Regexp
-      'Regexp'
-    end
-  end
-
   def my_each(&block)
     if self.class == Hash
       hash_iterator(&block)
@@ -76,7 +77,18 @@ module Enumerable
     if block_given?
       !my_select(&block).empty?
     else
-      variable_check(arg)
+      case variable_check(arg)
+      when 'Regexp'
+        'Regexp'
+      when 'Integer'
+        'Integer'
+      when 'NilClass'
+        'NilClass'
+      when 'Class'
+        arg
+      else
+        'Variable Class not found'
+      end
     end
   end
 
@@ -84,7 +96,18 @@ module Enumerable
     if block_given?
       my_select(&block).empty?
     else
-      variable_check(arg)
+      case variable_check(arg)
+      when 'Regexp'
+        'Regexp'
+      when 'Integer'
+        'Integer'
+      when 'NilClass'
+        'NilClass'
+      when 'Class'
+        arg
+      else
+        'Variable Class not found'
+      end
     end
   end
 
@@ -92,35 +115,52 @@ module Enumerable
     if block_given?
       my_select(&block).length
     else
-      variable_check(arg)
+      case variable_check(arg)
+      when 'Integer'
+        my_select { |x| x == arg }.length
+        # "#{arg} occurs x times"
+      when 'NilClass'
+        length
+      else
+        0
+      end
     end
   end
 end
 
-even_numbers = []
-[1, 2, 3, 4, 5, 6].select { |n| even_numbers << n if n.even? }
-p even_numbers
-p [1, 2, 3, 4, 5, 6].select { |n| n.even? }
-p [1, 2, 3, 4, 5, 6].select(&:even?)
-stock = { apples: 10, oranges: 5, bananas: 1 }
-p stock.my_select { |_k, v| v > 1 }
+# stooges = %w[Larry Curly Moe]
+# p stooges.my_each { |stooge, i| print stooge + "\n" + i.to_s }
+#
+# contact_info = { 'name' => 'Bob', 'phone' => '111-111-1111' }
+# p contact_info.my_each_with_index { |key, value| print key + ' = ' + value + "\n" }
+#
+# even_numbers = []
+# [1, 2, 3, 4, 5, 6].my_select { |n| even_numbers << n if n.even? }
+# p even_numbers
+# p [1, 2, 3, 4, 5, 6].my_select { |n| n.even? }
+# p [1, 2, 3, 4, 5, 6].my_select(&:even?)
+# stock = { apples: 10, oranges: 5, bananas: 1 }
+# p stock.my_select { |_k, v| v > 1 }
+#
+# p %w[ant bear cat].my_all?(/t/) #=> false  # DOES NOT WORK YET
+# p [1, 2i, 3.14].my_all?(Numeric) #=> true  # DOES NOT WORK YET
+# p [nil, true, 99].my_all? # DOES NOT WORK YET
+# p [].my_all? #=> true  # DOES NOT WORK YET
+#
+# p %w[ant bear cat].my_any?(2) #=> false  # DOES NOT WORK YET
+# p [nil, true, 99].my_any?(Integer) #=> true  # DOES NOT WORK YET
+# p [nil, true, 99].my_any? #=> true  # DOES NOT WORK YET
+# p [].my_any? #=> false  # DOES NOT WORK YET
 
-p %w[ant bear cat].my_all?(/t/) #=> false  # DOES NOT WORK YET
-p [1, 2i, 3.14].my_all?(Numeric) #=> true  # DOES NOT WORK YET
-p [nil, true, 99].my_all? # DOES NOT WORK YET
-p [].my_all? #=> true  # DOES NOT WORK YET
+# p %w[ant bear cat].my_none? { |word| word.length == 5 } #=> true
+# p %w[ant bear cat].my_none? { |word| word.length >= 4 } #=> false
+p %w[ant bear cat].none?(/d/) #=> true  # DOES NOT WORK YET
+p [1, 3.14, 42].none?(Float) #=> false  # DOES NOT WORK YET
+p [].none? #=> true  # DOES NOT WORK YET
+p [nil].none? #=> true  # DOES NOT WORK YET
+p [nil, false].none? #=> true  # DOES NOT WORK YET
+p [nil, false, true].none? #=> false  # DOES NOT WORK YET
 
-p %w[ant bear cat].my_any?(2) #=> false  # DOES NOT WORK YET
-p [nil, true, 99].my_any?(Integer) #=> true  # DOES NOT WORK YET
-p [nil, true, 99].my_any? #=> true  # DOES NOT WORK YET
-p [].my_any? #=> false  # DOES NOT WORK YET
-
-p %w[ant bear cat].my_none?(/d/) #=> true  # DOES NOT WORK YET
-p [1, 3.14, 42].my_none?(Float) #=> false  # DOES NOT WORK YET
-p [].my_none? #=> true  # DOES NOT WORK YET
-p [nil].my_none? #=> true  # DOES NOT WORK YET
-p [nil, false].my_none? #=> true  # DOES NOT WORK YET
-p [nil, false, true].my_none? #=> false  # DOES NOT WORK YET
-
-# p array.my_count #=> 4 # DOES NOT WORK YET
-# p array.my_count(2) #=> 2 # DOES NOT WORK YET
+# p array.my_count #=> 7
+# p array.my_count(2) #=> 1
+# p num_array.my_count { |x| x.even? } #=> 4
