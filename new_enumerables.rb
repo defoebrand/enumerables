@@ -85,7 +85,7 @@ module Enumerable
       when 'NilClass'
         'NilClass'
       when 'Class'
-        arg
+        !my_select { |x| x.class == arg }.empty?
       else
         'Variable Class not found'
       end
@@ -148,16 +148,18 @@ end
 # p [nil, true, 99].my_all? # DOES NOT WORK YET
 # p [].my_all? #=> true  # DOES NOT WORK YET
 #
-# p %w[ant bear cat].my_any?(2) #=> false  # DOES NOT WORK YET
-# p [nil, true, 99].my_any?(Integer) #=> true  # DOES NOT WORK YET
+# p %w[ant bear cat].my_any? { |word| word.length >= 3 } #=> true
+# p %w[ant bear cat].my_any? { |word| word.length >= 4 } #=> true
+
+# p %w[ant bear cat].my_any?(/d/) #=> false  # DOES NOT WORK YET
+p [nil, true, 99, 'hell'].my_any?(String) #=> true  # DOES NOT WORK YET
 # p [nil, true, 99].my_any? #=> true  # DOES NOT WORK YET
 # p [].my_any? #=> false  # DOES NOT WORK YET
 
 # p %w[ant bear cat].my_none? { |word| word.length == 5 } #=> true
 # p %w[ant bear cat].my_none? { |word| word.length >= 4 } #=> false
-p %w[ant bear cat].my_none?(/t/) #=> true  # DOES NOT WORK YET
+# p %w[ant bear cat].my_none?(/t/) #=> true  # DOES NOT WORK YET
 # p [1, 3.14, 42].my_none?(Float) #=> false
-
 # p [].my_none? #=> true  # DOES NOT WORK YET
 # p [nil].my_none? #=> true  # DOES NOT WORK YET
 # p [nil, false].my_none? #=> true  # DOES NOT WORK YET
