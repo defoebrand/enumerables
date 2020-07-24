@@ -8,6 +8,7 @@ stooges = %w[Larry Curly Moe]
 contact_info = { 'name' => 'Bob', 'phone' => '111-111-1111' }
 even_numbers = []
 stock = { apples: 10, oranges: 5, bananas: 1 }
+a = %w[a b c d]
 
 def hash_iterator(arg = 0, &block)
   ind = arg
@@ -171,14 +172,14 @@ end
 # p [1, 2i, 3.14].all?(Integer) #=> true
 # p [nil, true, 99].all? #=> false
 # p [].all? #=> true
-p %w[ant bear cat].all?(/t/) #=> false  # DOES NOT WORK YET
+# p %w[ant bear cat].all?(/t/) #=> false  # DOES NOT WORK YET
 #
 # p(%w[ant bear cat].any? { |word| word.length >= 3 }) #=> true
 # p(%w[ant bear cat].any? { |word| word.length >= 4 }) #=> true
 # p [nil, true, 99].any?(Integer) #=> true
 # p [nil, false].any? #=> true
 # p [].any? #=> false
-p %w[ant bear cat].any?(/d/) #=> false  # DOES NOT WORK YET
+# p %w[ant bear cat].any?(/d/) #=> false  # DOES NOT WORK YET
 #
 # p(%w[ant bear cat].none? { |word| word.length == 5 }) #=> true
 # p(%w[ant bear cat].none? { |word| word.length >= 4 }) #=> false
@@ -187,24 +188,22 @@ p %w[ant bear cat].any?(/d/) #=> false  # DOES NOT WORK YET
 # p [nil].none? #=> true
 # p [nil, false].none? #=> true
 # p [nil, false, true].none? #=> false
-p %w[ant bear cat].none?(/t/) #=> true  # DOES NOT WORK YET
+# p %w[ant bear cat].none?(/t/) #=> true  # DOES NOT WORK YET
 #
 # p array.count #=> 7
 # p array.count(2) #=> 1
 # p(num_array.count { |x| x.even? }) #=> 4
-# #
-# a = %w[a b c d]
+#
+# p([1, 2, 3, 4].map { |i| i * i }) #=> [1, 4, 9, 16]
+# p([1, 2, 3, 4].map { 'cat' }) #=> ["cat", "cat", "cat", "cat"]
 # p(a.map { |x| x + '!' }) #=> ["a!", "b!", "c!", "d!"]
 # p a #=> ["a", "b", "c", "d"]
 # #
-# p([1, 2, 3, 4].map { |i| i * i }) #=> [1, 4, 9, 16]
-# p([1, 2, 3, 4].map { 'cat' }) #=> ["cat", "cat", "cat", "cat"]
-#
-# p [5, 6, 7, 8].inject(0) { |result_memo, object| result_memo + object } # =>
-# hash2.my_each { |item| p item }
+p [5, 6, 7, 8].inject(0) { |result_memo, object| result_memo + object } # =>
 
 #             TEST SHEETS - My_Enumerables
 #
+
 # p(stooges.my_each { |stooge| print stooge + "\n" })
 # p(contact_info.my_each { |key, value| print key + ' = ' + value + "\n" })
 #
@@ -219,14 +218,14 @@ p %w[ant bear cat].none?(/t/) #=> true  # DOES NOT WORK YET
 # p [1, 2i, 3.14].my_all?(Integer) #=> true
 # p [nil, true, 99].my_all? #=> false
 # p [].my_all? #=> true
-p %w[ant bear cat].my_all?(/t/) #=> false  # DOES NOT WORK YET
+# p %w[ant bear cat].my_all?(/t/) #=> false  # DOES NOT WORK YET
 #
 # p(%w[ant bear cat].my_any? { |word| word.length >= 3 }) #=> true
 # p(%w[ant bear cat].my_any? { |word| word.length >= 4 }) #=> true
 # p [nil, true, 99].my_any?(Integer) #=> true
 # p [nil, false].my_any? #=> true
 # p [].my_any? #=> false
-p %w[ant bear cat].my_any?(/d/) #=> false  # DOES NOT WORK YET
+# p %w[ant bear cat].my_any?(/d/) #=> false  # DOES NOT WORK YET
 #
 # p(%w[ant bear cat].my_none? { |word| word.length == 5 }) #=> true
 # p(%w[ant bear cat].my_none? { |word| word.length >= 4 }) #=> false
@@ -235,18 +234,16 @@ p %w[ant bear cat].my_any?(/d/) #=> false  # DOES NOT WORK YET
 # p [nil].my_none? #=> true
 # p [nil, false].my_none? #=> true
 # p [nil, false, true].my_none? #=> false
-p %w[ant bear cat].my_none?(/t/) #=> true  # DOES NOT WORK YET
+# p %w[ant bear cat].my_none?(/t/) #=> true  # DOES NOT WORK YET
 #
 # p array.my_count #=> 7
 # p array.my_count(2) #=> 1
 # p(num_array.my_count { |x| x.even? }) #=> 4
-# #
-# a = %w[a b c d]
-# p(a.my_map { |x| x + '!' }) #=> ["a!", "b!", "c!", "d!"]
-# p a #=> ["a", "b", "c", "d"]
-# #
+#
 # p([1, 2, 3, 4].my_map { |i| i * i }) #=> [1, 4, 9, 16]
 # p([1, 2, 3, 4].my_map { 'cat' }) #=> ["cat", "cat", "cat", "cat"]
-#
-# # p [5, 6, 7, 8].my_inject(0) { |result_memo, object| result_memo + object } # =>
+# p(a.my_map { |x| x + '!' }) #=> ["a!", "b!", "c!", "d!"]
+# p a #=> ["a", "b", "c", "d"]
+
+# p [5, 6, 7, 8].my_inject(0) { |result_memo, object| result_memo + object } # =>
 # hash2.my_each { |item| p item }
