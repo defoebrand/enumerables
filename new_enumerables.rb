@@ -40,4 +40,30 @@ module Enumerable
       query
     end
   end
+
+  def my_all?(_arg = nil, &block)
+    if block_given?
+      my_select(&block).length == length
+    else
+      'hey'
+    end
+  end
+
+  def my_any?(_arg = nil, &block)
+    if block_given?
+      !my_select(&block).empty?
+    else
+      'hey'
+    end
+  end
 end
+
+# p %w[ant bear cat].my_all?(/t/) #=> false  # DOES NOT WORK YET
+# p [1, 2i, 3.14].my_all?(Numeric) #=> true  # DOES NOT WORK YET
+# #p [nil, true, 99].my_all? # DOES NOT WORK YET
+# p [].my_all? #=> true  # DOES NOT WORK YET
+
+# p %w[ant bear cat].my_any?(/d/) #=> false  # DOES NOT WORK YET
+# p [nil, true, 99].my_any?(Integer) #=> true  # DOES NOT WORK YET
+# p [nil, true, 99].my_any? #=> true  # DOES NOT WORK YET
+# p [].my_any? #=> false  # DOES NOT WORK YET
