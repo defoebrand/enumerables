@@ -98,13 +98,14 @@ module Enumerable
     else
       case variable_check(arg)
       when 'Regexp'
-        'Regexp'
+        # binding.pry
+        my_select { |x| arg.match(x) }.empty?
       when 'Integer'
         'Integer'
       when 'NilClass'
-        'NilClass'
+        my_select { |x| x == true }.empty?
       when 'Class'
-        arg
+        my_select { |x| x.class == arg }.empty?
       else
         'Variable Class not found'
       end
@@ -154,12 +155,13 @@ end
 
 # p %w[ant bear cat].my_none? { |word| word.length == 5 } #=> true
 # p %w[ant bear cat].my_none? { |word| word.length >= 4 } #=> false
-p %w[ant bear cat].none?(/d/) #=> true  # DOES NOT WORK YET
-p [1, 3.14, 42].none?(Float) #=> false  # DOES NOT WORK YET
-p [].none? #=> true  # DOES NOT WORK YET
-p [nil].none? #=> true  # DOES NOT WORK YET
-p [nil, false].none? #=> true  # DOES NOT WORK YET
-p [nil, false, true].none? #=> false  # DOES NOT WORK YET
+p %w[ant bear cat].my_none?(/t/) #=> true  # DOES NOT WORK YET
+# p [1, 3.14, 42].my_none?(Float) #=> false
+
+# p [].my_none? #=> true  # DOES NOT WORK YET
+# p [nil].my_none? #=> true  # DOES NOT WORK YET
+# p [nil, false].my_none? #=> true  # DOES NOT WORK YET
+# p [nil, false, true].my_none? #=> false  # DOES NOT WORK YET
 
 # p array.my_count #=> 7
 # p array.my_count(2) #=> 1
