@@ -1,9 +1,9 @@
 require 'pry'
 
-hash = { type: 'tree', fruit: false, count: 3 }
-hash2 = { apples: 10, oranges: 5, bananas: 1 }
-array = [5, 4, 3, 2, 1, 'hello', 'world']
-num_array = [9, 8, 7, 6, 2, 3, 4, 5]
+# hash = { type: 'tree', fruit: false, count: 3 }
+# hash2 = { apples: 10, oranges: 5, bananas: 1 }
+# array = [5, 4, 3, 2, 1, 'hello', 'world']
+# num_array = [9, 8, 7, 6, 2, 3, 4, 5]
 
 def hash_iterator(&block)
   0.upto(length - 1) { |ind| block.call(keys[ind], values[ind]) }
@@ -25,6 +25,10 @@ def variable_check(arg)
   elsif arg.class == Regexp
     'Regexp'
   end
+end
+
+def handle_numeric(elem)
+  true if elem.class == Integer || elem.class == Float || elem.class == Complex
 end
 
 module Enumerable
@@ -64,11 +68,13 @@ module Enumerable
       when 'Integer'
         'Integer'
       when 'NilClass'
-        'NilClass'
+        my_select { |x| x == true }.length == length
       when 'Class'
-        arg
-      else
-        'Variable Class not found'
+        if arg == Numeric
+          my_select { |x| handle_numeric(x) }.length == length
+        else
+          my_select { |x| x.class == arg }.length == length
+        end
       end
     end
   end
@@ -83,11 +89,9 @@ module Enumerable
       when 'Integer'
         'Integer'
       when 'NilClass'
-        'NilClass'
+        !my_select { |x| x == true }.empty?
       when 'Class'
         !my_select { |x| x.class == arg }.empty?
-      else
-        'Variable Class not found'
       end
     end
   end
@@ -98,7 +102,6 @@ module Enumerable
     else
       case variable_check(arg)
       when 'Regexp'
-        # binding.pry
         my_select { |x| arg.match(x) }.empty?
       when 'Integer'
         'Integer'
@@ -106,8 +109,6 @@ module Enumerable
         my_select { |x| x == true }.empty?
       when 'Class'
         my_select { |x| x.class == arg }.empty?
-      else
-        'Variable Class not found'
       end
     end
   end
@@ -119,7 +120,6 @@ module Enumerable
       case variable_check(arg)
       when 'Integer'
         my_select { |x| x == arg }.length
-        # "#{arg} occurs x times"
       when 'NilClass'
         length
       else
@@ -143,28 +143,29 @@ end
 # stock = { apples: 10, oranges: 5, bananas: 1 }
 # p stock.my_select { |_k, v| v > 1 }
 #
+# p %w[ant bear cat].my_all? { |word| word.length >= 3 } #=> true
+# p %w[ant bear cat].my_all? { |word| word.length >= 4 } #=> false
+# p [1, 2i, 3.14].my_all?(Integer) #=> true
+# p [nil, true, 99].my_all? #=> false
+# p [].my_all? #=> true
 # p %w[ant bear cat].my_all?(/t/) #=> false  # DOES NOT WORK YET
-# p [1, 2i, 3.14].my_all?(Numeric) #=> true  # DOES NOT WORK YET
-# p [nil, true, 99].my_all? # DOES NOT WORK YET
-# p [].my_all? #=> true  # DOES NOT WORK YET
 #
 # p %w[ant bear cat].my_any? { |word| word.length >= 3 } #=> true
 # p %w[ant bear cat].my_any? { |word| word.length >= 4 } #=> true
-
+# p [nil, true, 99].my_any?(Integer) #=> true
+# p [nil, false].my_any? #=> true
+# p [].my_any? #=> false
 # p %w[ant bear cat].my_any?(/d/) #=> false  # DOES NOT WORK YET
-p [nil, true, 99, 'hell'].my_any?(String) #=> true  # DOES NOT WORK YET
-# p [nil, true, 99].my_any? #=> true  # DOES NOT WORK YET
-# p [].my_any? #=> false  # DOES NOT WORK YET
 
 # p %w[ant bear cat].my_none? { |word| word.length == 5 } #=> true
 # p %w[ant bear cat].my_none? { |word| word.length >= 4 } #=> false
-# p %w[ant bear cat].my_none?(/t/) #=> true  # DOES NOT WORK YET
 # p [1, 3.14, 42].my_none?(Float) #=> false
-# p [].my_none? #=> true  # DOES NOT WORK YET
-# p [nil].my_none? #=> true  # DOES NOT WORK YET
-# p [nil, false].my_none? #=> true  # DOES NOT WORK YET
-# p [nil, false, true].my_none? #=> false  # DOES NOT WORK YET
-
+# p [].my_none? #=> true
+# p [nil].my_none? #=> true
+# p [nil, false].my_none? #=> true
+# p [nil, false, true].my_none? #=> false
+# p %w[ant bear cat].my_none?(/t/) #=> true  # DOES NOT WORK YET
+#
 # p array.my_count #=> 7
 # p array.my_count(2) #=> 1
 # p num_array.my_count { |x| x.even? } #=> 4
