@@ -127,6 +127,10 @@ module Enumerable
       end
     end
   end
+
+  def my_map; end
+
+  def my_inject; end
 end
 
 # stooges = %w[Larry Curly Moe]
