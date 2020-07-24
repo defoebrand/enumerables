@@ -45,25 +45,52 @@ module Enumerable
     if block_given?
       my_select(&block).length == length
     else
-      'hey'
+      arg.class
     end
   end
 
-  def my_any?(_arg = nil, &block)
+  def my_any?(arg = nil, &block)
     if block_given?
       !my_select(&block).empty?
     else
-      'hey'
+      arg.class
+    end
+  end
+
+  def my_none?(_arg = nil, &block)
+    if block_given?
+      my_select(&block).empty?
+    else
+      arg.class
+    end
+  end
+
+  def my_count(arg = nil, &block)
+    if block_given?
+      my_select(&block).length
+    else
+      arg.class
     end
   end
 end
 
+p Numeric.class
 # p %w[ant bear cat].my_all?(/t/) #=> false  # DOES NOT WORK YET
-# p [1, 2i, 3.14].my_all?(Numeric) #=> true  # DOES NOT WORK YET
+p [1, 2i, 3.14].my_all?(Numeric) #=> true  # DOES NOT WORK YET
 # #p [nil, true, 99].my_all? # DOES NOT WORK YET
 # p [].my_all? #=> true  # DOES NOT WORK YET
 
-# p %w[ant bear cat].my_any?(/d/) #=> false  # DOES NOT WORK YET
+p %w[ant bear cat].my_any?(2) #=> false  # DOES NOT WORK YET
 # p [nil, true, 99].my_any?(Integer) #=> true  # DOES NOT WORK YET
 # p [nil, true, 99].my_any? #=> true  # DOES NOT WORK YET
 # p [].my_any? #=> false  # DOES NOT WORK YET
+
+# p %w[ant bear cat].my_none?(/d/) #=> true  # DOES NOT WORK YET
+# p [1, 3.14, 42].my_none?(Float) #=> false  # DOES NOT WORK YET
+# p [].my_none? #=> true  # DOES NOT WORK YET
+# p [nil].my_none? #=> true  # DOES NOT WORK YET
+# p [nil, false].my_none? #=> true  # DOES NOT WORK YET
+# p [nil, false, true].my_none? #=> false  # DOES NOT WORK YET
+
+# p array.my_count #=> 4 # DOES NOT WORK YET
+# p array.my_count(2) #=> 2 # DOES NOT WORK YET
