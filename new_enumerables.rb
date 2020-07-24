@@ -41,5 +41,3 @@ module Enumerable
     end
   end
 end
-
-p hash2.my_select { |_k, v| v > 1 } #- DOES NOT WORK YET
