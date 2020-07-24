@@ -19,11 +19,11 @@ To get your own copy of our project simply clone the repository to your local ma
 
 **Step 1**: Type the following command into a git shell
 
-_git clone <https://github.com/defoebrand/bubble_sort.git>_
+_git clone <https://github.com/defoebrand/enumerables.git>_
 
 **Step 2**: Direct a terminal into the cloned repository directory
 
-_cd bubble_sort_
+_cd enumerables_
 
 **Step 3**: Run the program from command line, open it in irb, or edit it in a text editor
 
