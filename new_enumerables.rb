@@ -21,15 +21,29 @@ def range_iterator(arg = nil, &block)
   array
 end
 
+def numeric_class(arg)
+  if arg == Numeric
+    my_select { |x| handle_numeric(x) }
+  else
+    my_select { |x| x.class == arg }
+  end
+end
+
+def handle_numeric(arg)
+  true if arg.class == Integer || arg.class == Float || arg.class == Complex
+end
+
 def class_check(arg)
   if arg.class == NilClass
-    'NilClass'
-  elsif arg.class == Integer
-    'Integer'
-  elsif arg.class == Class
-    'Class'
+    my_select { |x| x == true }
   elsif arg.class == Regexp
-    'Regexp'
+    my_select { |x| x.match?(arg) }
+  elsif arg.class == String
+    my_select { |x| x.include?(arg) }
+  elsif arg.class == Integer
+    my_select { |x| x == arg }
+  elsif arg.class == Class
+    numeric_class(arg)
   end
 end
 
@@ -38,11 +52,10 @@ def type_check(&block)
     hash_iterator(&block)
   elsif self.class == Array
     array_iterator(&block)
+  elsif self.class == Range
+    array = [*self]
+    range_iterator(array, &block)
   end
-end
-
-def handle_numeric(arg)
-  true if arg.class == Integer || arg.class == Float || arg.class == Complex
 end
 
 module Enumerable
