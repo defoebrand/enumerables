@@ -74,9 +74,9 @@ p([1, 2, 3, 4].map { 'cat' }) #=> ["cat", "cat", "cat", "cat"]
 p(a.map { |x| x + '!' }) #=> ["a!", "b!", "c!", "d!"]
 p a #=> ["a", "b", "c", "d"]
 
-p (5..10).inject(:+)
+p(5..10).inject(:+)
 p [1, 2, 3, 5, 8].inject(:+)
-p (5..10).inject(1, :*)
+p(5..10).inject(1, :*)
 p(5..10).inject(1) { |product, n| product * n }
 p(5..8).inject(0) { |result_memo, object| result_memo + object } # =>
 p [5, 6, 7, 8].inject(0) { |result_memo, object| result_memo + object } # => 26
@@ -158,9 +158,9 @@ p([1, 2, 3, 4].my_map { 'cat' }) #=> ["cat", "cat", "cat", "cat"]
 p(a.my_map { |x| x + '!' }) #=> ["a!", "b!", "c!", "d!"]
 p a #=> ["a", "b", "c", "d"]
 
-p (5..10).my_inject(:+)
+p(5..10).my_inject(:+)
 p [1, 2, 3, 5, 8].my_inject(:+)
-p (5..10).my_inject(1, :*)
+p(5..10).my_inject(1, :*)
 p(5..10).my_inject(1) { |product, n| product * n }
 p(5..8).my_inject(0) { |result_memo, object| result_memo + object } # =>
 p [5, 6, 7, 8].my_inject(0) { |result_memo, object| result_memo + object } # => 26
