@@ -1,3 +1,5 @@
+require 'pry'
+
 def hash_iterator(&block)
   0.upto(length - 1) { |ind| block.call(keys[ind], values[ind]) }
   self
@@ -74,6 +76,8 @@ end
 
 module Enumerable
   def my_each(&block)
+    return to_enum(:my_each) unless block_given?
+
     type_check(&block)
   end
 
@@ -82,6 +86,8 @@ module Enumerable
   end
 
   def my_select(&block)
+    return to_enum(:my_each) unless block_given?
+
     hash_query = {}
     array_query = []
     if self.class != Hash
@@ -98,6 +104,10 @@ module Enumerable
   def my_all?(arg = nil, &block)
     if block_given?
       my_select(&block).length == length
+    elsif arg.nil?
+      array_query = []
+      type_check { |n| array_query << n if n }
+      array_query.length == length
     else
       class_check(arg).length == length
     end
@@ -123,7 +133,7 @@ module Enumerable
     if block_given?
       my_select(&block).length
     elsif arg.class == NilClass
-      length
+      to_a.length
     elsif arg.class != NilClass
       class_check(arg).length
     else
@@ -143,7 +153,7 @@ module Enumerable
     query
   end
 
-  def my_inject(*args, &block)
+  def my_inject(*args)
     arg = multiple_args(*args)
     array = convert_to_array
     if args[0].class == Symbol && !block_given?
@@ -151,7 +161,7 @@ module Enumerable
     elsif args[1].class == Symbol && !block_given?
       0.upto(array.length - 1) { |ind| arg = arg.send args[1], array[ind] }
     else
-      0.upto(array.length - 1) { |ind| arg = block.call(arg, array[ind]) }
+      0.upto(array.length - 1) { |ind| arg = yield(arg, array[ind]) }
     end
     arg
   end
