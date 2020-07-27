@@ -2,9 +2,7 @@
 
 This is Brandon and Kalu's enumerable Ruby project
 
-![Screenshot](screenshot.png)
-
-This project was compiled by Kalu and Brandon in the Ruby section of the Microverse course work. It involved using ruby to create a sorting method.
+This project was compiled by Kalu and Brandon in the Ruby section of the Microverse course work. It involved using ruby to create my_methods.
 
 ## Built With
 
@@ -26,6 +24,14 @@ _git clone <https://github.com/defoebrand/enumerables.git>_
 _cd enumerables_
 
 **Step 3**: Run the program from command line, open it in irb, or edit it in a text editor
+
+## To Test
+
+**Step 1**: 
+_Visit this site <https://repl.it/@defoebrand/enumerables#test.rb>_
+
+**Step 2**:
+_Click run 
 
 ## Author
 
