@@ -68,7 +68,7 @@ p [1, 5i, 5.67].none?(Numeric) # => false
 p array.count #=> 7
 p array.count(2) #=> 1
 p(num_array.count(&:even?)) #=> 4
-p (1..4).count
+p(1..4).count
 
 p((1..4).map { |i| i * i })
 p([1, 2, 3, 4].map { |i| i * i }) #=> [1, 4, 9, 16]
@@ -82,7 +82,7 @@ p(5..10).inject(1, :*)
 p(5..10).inject(1) { |product, n| product * n }
 p(5..8).inject(0) { |result_memo, object| result_memo + object } # =>
 p [5, 6, 7, 8].inject(0) { |result_memo, object| result_memo + object } # => 26
-p longest.inject { |memo, word| memo.length > word.length ? memo : word }
+p(longest.inject { |memo, word| memo.length > word.length ? memo : word })
 p longest
 
 # # = = = = = = = =  MY ENUMERABLES TESTS = = = = = = = = # #
@@ -157,7 +157,7 @@ p [1, 5i, 5.67].my_none?(Numeric) # => false
 p array.my_count #=> 7
 p array.my_count(2) #=> 1
 p(num_array.my_count(&:even?)) #=> 4
-p (1..4).my_count
+p(1..4).my_count
 p((1..4).my_map { |i| i * i })
 p([1, 2, 3, 4].my_map { |i| i * i }) #=> [1, 4, 9, 16]
 p([1, 2, 3, 4].my_map { 'cat' }) #=> ["cat", "cat", "cat", "cat"]
