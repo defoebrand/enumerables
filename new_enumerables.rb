@@ -1,29 +1,24 @@
 require 'pry'
 
-# hash = { type: 'tree', fruit: false, count: 3 }
-hash2 = { apples: 10, oranges: 5, bananas: 1 }
-array = [5, 4, 3, 2, 1, 'hello', 'world']
-num_array = [9, 8, 7, 6, 2, 3, 4, 5]
-stooges = %w[Larry Curly Moe]
-contact_info = { 'name' => 'Bob', 'phone' => '111-111-1111' }
-even_numbers = []
-stock = { apples: 10, oranges: 5, bananas: 1 }
-a = %w[a b c d]
-
-def hash_iterator(arg = 0, &block)
-  ind = arg
-  ind.upto(length - 1) { |ind| block.call(keys[ind], values[ind]) }
+def hash_iterator(&block)
+  0.upto(length - 1) { |ind| block.call(keys[ind], values[ind]) }
   self
 end
 
 def array_iterator(&block)
-  0.upto(length - 1) { |ind| block.call(self[ind]) }
+  0.upto(length - 1) { |ind| block.call(self[ind], ind) }
   self
 end
 
-def array_iterator_with_index(&block)
-  0.upto(length - 1) { |ind| block.call(self[ind], ind) }
-  self
+# def array_iterator_with_index(&block)
+#   0.upto(length - 1) { |ind| block.call(self[ind], ind) }
+#   self
+# end
+
+def range_iterator(arg = nil, &block)
+  array = *self
+  0.upto(arg.length - 1) { |ind| block.call(array[ind], ind) }
+  array
 end
 
 def class_check(arg)
