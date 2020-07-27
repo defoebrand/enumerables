@@ -10,75 +10,80 @@ even_numbers = []
 stock = { apples: 10, oranges: 5, bananas: 1 }
 a = %w[a b c d]
 
-# p(stooges.each { |stooge| print stooge + "\n" })
-# p(contact_info.each { |key, value| print key + ' = ' + value + "\n" })
-#
-# [1, 2, 3, 4, 5, 6].select { |n| even_numbers << n if n.even? }
-# p even_numbers
-# p([1, 2, 3, 4, 5, 6].select(&:even?))
-# p [1, 2, 3, 4, 5, 6].select(&:even?)
-# p(stock.select { |_k, v| v > 1 })
-# p(contact_info.my_select { |_k, v| v == 'Bob' })
-#
-# p(%w[ant bear cat].all? { |word| word.length >= 3 }) #=> true
-# p(%w[ant bear cat].all? { |word| word.length >= 4 }) #=> false
-# p [1, 2i, 3.14].all?(Integer) #=> true
-# p [nil, true, 99].all? #=> false
-# p [].all? #=> true
-# p %w[ant bear cat].all?(/t/) #=> false
-# p [2, 1, 6, 7, 4, 8, 10].all?(3) # => false
-# p %w[Marc Luc Jean].all?('Jean') # => false
-# p %w[Marc Luc Jean].all?(/a/) # => false
-#
-# p(%w[ant bear cat].any? { |word| word.length >= 3 }) #=> true
-# p(%w[ant bear cat].any? { |word| word.length >= 4 }) #=> true
-# p [nil, true, 99].any?(Integer) #=> true
-# p [nil, false].any? #=> true
-# p [].any? #=> false
-# p %w[ant bear cat].any?(/d/) #=> false
-# p %w[Marc Luc Jean].any?(/d/) # => false
-# p [2, 1, 6, 7, 4, 8, 10].any?(7) # => true
-# p %w[Marc Luc Jean].any?('Jean') # => true
-# p [nil, true, 99].any?(Integer) # => true
-# p ['1', 5i, 5.67].any?(Numeric) # => true
-#
-# p(%w[ant bear cat].none? { |word| word.length == 5 }) #=> true
-# p(%w[ant bear cat].none? { |word| word.length >= 4 }) #=> false
-# p [1, 3.14, 42].none?(Float) #=> false
-# p [].none? #=> true
-# p [nil].none? #=> true
-# p [nil, false].none? #=> true
-# p [nil, false, true].none? #=> false
-# p %w[ant bear cat].none?(/t/) #=> false
-# p %w[Marc Luc Jean].none?(/j/) #=> true
-# p [2, 1, 6, 7, 4, 8, 10].none?(15) #=> true
-# p %w[Marc Luc Jean].none?('Jean') # => false
-# p [1, 3.14, 42].none?(Float) # => false
-# p [1, 5i, 5.67].none?(Numeric) # => false
-#
-# p array.count #=> 7
-# p array.count(2) #=> 1
-# p(num_array.count(&:even?)) #=> 4
-#
-# p((1..4).map { |i| i * i })
-# p([1, 2, 3, 4].map { |i| i * i }) #=> [1, 4, 9, 16]
-# p([1, 2, 3, 4].map { 'cat' }) #=> ["cat", "cat", "cat", "cat"]
-# p(a.map { |x| x + '!' }) #=> ["a!", "b!", "c!", "d!"]
-# p a #=> ["a", "b", "c", "d"]
-#
-# p (5..10).inject(:+)
-# p(5..10).inject(1) { |product, n| product * n }
-# p(5..8).inject(0) { |result_memo, object| result_memo + object } # =>
-# p [5, 6, 7, 8].inject(0) { |result_memo, object| result_memo + object } # => 26
-# longest = %w[cat sheep bear].inject do |memo, word|
-#   memo.length > word.length ? memo : word
-# end
-# p longest
+puts 'Default Tests'
+puts ''
+
+p(stooges.each { |stooge| print stooge + "\n" })
+p(contact_info.each { |key, value| print key + ' = ' + value + "\n" })
+
+[1, 2, 3, 4, 5, 6].select { |n| even_numbers << n if n.even? }
+p even_numbers
+p([1, 2, 3, 4, 5, 6].select(&:even?))
+p [1, 2, 3, 4, 5, 6].select(&:even?)
+p(stock.select { |_k, v| v > 1 })
+p(contact_info.my_select { |_k, v| v == 'Bob' })
+
+p(%w[ant bear cat].all? { |word| word.length >= 3 }) #=> true
+p(%w[ant bear cat].all? { |word| word.length >= 4 }) #=> false
+p [1, 2i, 3.14].all?(Integer) #=> true
+p [nil, true, 99].all? #=> false
+p [].all? #=> true
+p %w[ant bear cat].all?(/t/) #=> false
+p [2, 1, 6, 7, 4, 8, 10].all?(3) # => false
+p %w[Marc Luc Jean].all?('Jean') # => false
+p %w[Marc Luc Jean].all?(/a/) # => false
+
+p(%w[ant bear cat].any? { |word| word.length >= 3 }) #=> true
+p(%w[ant bear cat].any? { |word| word.length >= 4 }) #=> true
+p [nil, true, 99].any?(Integer) #=> true
+p [nil, false].any? #=> true
+p [].any? #=> false
+p %w[ant bear cat].any?(/d/) #=> false
+p %w[Marc Luc Jean].any?(/d/) # => false
+p [2, 1, 6, 7, 4, 8, 10].any?(7) # => true
+p %w[Marc Luc Jean].any?('Jean') # => true
+p [nil, true, 99].any?(Integer) # => true
+p ['1', 5i, 5.67].any?(Numeric) # => true
+
+p(%w[ant bear cat].none? { |word| word.length == 5 }) #=> true
+p(%w[ant bear cat].none? { |word| word.length >= 4 }) #=> false
+p [1, 3.14, 42].none?(Float) #=> false
+p [].none? #=> true
+p [nil].none? #=> true
+p [nil, false].none? #=> true
+p [nil, false, true].none? #=> false
+p %w[ant bear cat].none?(/t/) #=> false
+p %w[Marc Luc Jean].none?(/j/) #=> true
+p [2, 1, 6, 7, 4, 8, 10].none?(15) #=> true
+p %w[Marc Luc Jean].none?('Jean') # => false
+p [1, 3.14, 42].none?(Float) # => false
+p [1, 5i, 5.67].none?(Numeric) # => false
+
+p array.count #=> 7
+p array.count(2) #=> 1
+p(num_array.count(&:even?)) #=> 4
+
+p((1..4).map { |i| i * i })
+p([1, 2, 3, 4].map { |i| i * i }) #=> [1, 4, 9, 16]
+p([1, 2, 3, 4].map { 'cat' }) #=> ["cat", "cat", "cat", "cat"]
+p(a.map { |x| x + '!' }) #=> ["a!", "b!", "c!", "d!"]
+p a #=> ["a", "b", "c", "d"]
+
+p (5..10).inject(:+)
+p [1, 2, 3, 5, 8].inject(:+)
+p (5..10).inject(1, :*)
+p(5..10).inject(1) { |product, n| product * n }
+p(5..8).inject(0) { |result_memo, object| result_memo + object } # =>
+p [5, 6, 7, 8].inject(0) { |result_memo, object| result_memo + object } # => 26
+longest = %w[cat sheep bear].inject do |memo, word|
+  memo.length > word.length ? memo : word
+end
+p longest
 
 # # = = = = = = = =  MY ENUMERABLES TESTS = = = = = = = = # #
-
+puts ''
 puts 'My Enumerables Tests'
-
+puts ''
 hash = { type: 'tree', fruit: false, count: 3 }
 hash2 = { apples: 10, oranges: 5, bananas: 1 }
 array = [5, 4, 3, 2, 1, 'hello', 'world']
@@ -138,20 +143,22 @@ p array.my_count #=> 7
 p array.my_count(2) #=> 1
 p(num_array.my_count(&:even?)) #=> 4
 
-# p((1..4).my_map { |i| i * i })
-# p([1, 2, 3, 4].my_map { |i| i * i }) #=> [1, 4, 9, 16]
-# p([1, 2, 3, 4].my_map { 'cat' }) #=> ["cat", "cat", "cat", "cat"]
-# p(a.my_map { |x| x + '!' }) #=> ["a!", "b!", "c!", "d!"]
-# p a #=> ["a", "b", "c", "d"]
-# #
+p((1..4).my_map { |i| i * i })
+p([1, 2, 3, 4].my_map { |i| i * i }) #=> [1, 4, 9, 16]
+p([1, 2, 3, 4].my_map { 'cat' }) #=> ["cat", "cat", "cat", "cat"]
+p(a.my_map { |x| x + '!' }) #=> ["a!", "b!", "c!", "d!"]
+p a #=> ["a", "b", "c", "d"]
 #
-# # p [5, 6, 7, 8, 9, 10].my_inject(:+)
-# p(5..10).my_inject(1) { |product, n| product * n }
-# p(5..8).my_inject(0) { |result_memo, object| result_memo + object } # =>
-# p [5, 6, 7, 8].my_inject(0) { |result_memo, object| result_memo + object } # =>
-# longest = %w[cat sheep bear].my_inject do |memo, word|
-#   memo.length > word.length ? memo : word
-# end
-# p longest
-#
-# p multiply_els([2, 4, 5])
+
+p (5..10).inject(:+)
+p [1, 2, 3, 5, 8].inject(:+)
+p (5..10).inject(1, :*)
+p(5..10).inject(1) { |product, n| product * n }
+p(5..8).inject(0) { |result_memo, object| result_memo + object } # =>
+p [5, 6, 7, 8].inject(0) { |result_memo, object| result_memo + object } # => 26
+longest = %w[cat sheep bear].inject do |memo, word|
+  memo.length > word.length ? memo : word
+end
+p longest
+
+p multiply_els([2, 4, 5])

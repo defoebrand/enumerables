@@ -58,6 +58,27 @@ def type_check(&block)
   end
 end
 
+def convert_to_array
+  array = if self.class == Range
+            [*self]
+          elsif self.class == Hash
+            flatten
+          else
+            self
+          end
+  array
+end
+
+def multiple_args(*args)
+  if args[0].nil?
+    ''
+  elsif args[0].class == Symbol
+    0
+  else
+    args[0]
+  end
+end
+
 module Enumerable
   def my_each(&block)
     type_check(&block)
@@ -123,14 +144,17 @@ module Enumerable
     query
   end
 
-  def my_inject(arg = nil, &block)
-    data = if self.class == Range
-             to_a
-           else
-             self
-           end
-    arg = '' if arg.nil?
-    0.upto(data.length - 1) { |ind| arg = block.call(arg, data[ind]) }
+  def my_inject(*args, &block)
+    arg = multiple_args(*args)
+    array = convert_to_array
+
+    if args[0].class == Symbol && !block_given?
+      0.upto(array.length - 1) { |ind| arg = arg.send args[0], array[ind] }
+    elsif args[1].class == Symbol && !block_given?
+      0.upto(array.length - 1) { |ind| arg = arg.send args[1], array[ind] }
+    else
+      0.upto(array.length - 1) { |ind| arg = block.call(arg, array[ind]) }
+    end
     arg
   end
 end
