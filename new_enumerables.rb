@@ -85,20 +85,7 @@ module Enumerable
     if block_given?
       my_select(&block).length == length
     else
-      case class_check(arg)
-      when 'Regexp'
-        'Regexp'
-      when 'Integer'
-        'Integer'
-      when 'NilClass'
-        my_select { |x| x == true }.length == length
-      when 'Class'
-        if arg == Numeric
-          my_select { |x| handle_numeric(x) }.length == length
-        else
-          my_select { |x| x.class == arg }.length == length
-        end
-      end
+      class_check(arg).length == length
     end
   end
 
@@ -106,16 +93,7 @@ module Enumerable
     if block_given?
       !my_select(&block).empty?
     else
-      case class_check(arg)
-      when 'Regexp'
-        'Regexp'
-      when 'Integer'
-        'Integer'
-      when 'NilClass'
-        !my_select { |x| x == true }.empty?
-      when 'Class'
-        !my_select { |x| x.class == arg }.empty?
-      end
+      !class_check(arg).empty?
     end
   end
 
@@ -123,42 +101,40 @@ module Enumerable
     if block_given?
       my_select(&block).empty?
     else
-      case class_check(arg)
-      when 'Regexp'
-        my_select { |x| arg.match(x) }.empty?
-      when 'Integer'
-        'Integer'
-      when 'NilClass'
-        my_select { |x| x == true }.empty?
-      when 'Class'
-        my_select { |x| x.class == arg }.empty?
-      end
+      class_check(arg).empty?
     end
   end
 
   def my_count(arg = nil, &block)
     if block_given?
       my_select(&block).length
+    elsif arg.class == NilClass
+      length
+    elsif arg.class != NilClass
+      class_check(arg).length
     else
-      case class_check(arg)
-      when 'Integer'
-        my_select { |x| x == arg }.length
-      when 'NilClass'
-        length
-      else
-        0
-      end
+      0
     end
   end
 
-  def my_map
+  def my_map()
     query = []
-    array_iterator { |n| query << yield(n) }
+    type_check { |n| query << yield(n) }
     query
   end
 
-  def my_inject(_arg = nil, &block)
-    arg = 0
-    hash_iterator(&block)
+  def my_inject(arg = nil, &block)
+    data = if self.class == Range
+             to_a
+           else
+             self
+           end
+    arg = '' if arg.nil?
+    0.upto(data.length - 1) { |ind| arg = block.call(arg, data[ind]) }
+    arg
   end
+end
+
+def multiply_els(variable)
+  variable.my_inject(1) { |product, n| product * n }
 end
