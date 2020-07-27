@@ -1,8 +1,19 @@
-# enumerable Ruby Project
+# Enumerable Ruby Project
 
 This is Brandon and Kalu's enumerable Ruby project
 
 This project was compiled by Kalu and Brandon in the Ruby section of the Microverse course work. It involved using ruby to create my_methods.
+
+-   my_each
+-   my_each_with_index
+-   my_select
+-   my_all?
+-   my_any?
+-   my_none?
+-   my_count
+-   my_map
+-   my_inject
+-   multiply_els
 
 ## Built With
 
@@ -27,11 +38,13 @@ _cd enumerables_
 
 ## To Test
 
-**Step 1**: 
+**Step 1**:
+
 _Visit this site <https://repl.it/@defoebrand/enumerables#test.rb>_
 
 **Step 2**:
-_Click run 
+
+_Click run_
 
 ## Author
 
