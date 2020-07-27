@@ -10,11 +10,6 @@ def array_iterator(&block)
   self
 end
 
-# def array_iterator_with_index(&block)
-#   0.upto(length - 1) { |ind| block.call(self[ind], ind) }
-#   self
-# end
-
 def range_iterator(arg = nil, &block)
   array = *self
   0.upto(arg.length - 1) { |ind| block.call(array[ind], ind) }
@@ -138,9 +133,13 @@ module Enumerable
     end
   end
 
-  def my_map()
+  def my_map(proc = nil)
     query = []
-    type_check { |n| query << yield(n) }
+    if block_given?
+      type_check { |n| query << yield(n) }
+    else
+      type_check { |n| query << proc.call(n) }
+    end
     query
   end
 
