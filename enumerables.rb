@@ -145,52 +145,98 @@ module Enumerable
       arr
     end
   end
+
+  def my_all?(arg = nil)
+    ary = self
+    ary = ary.is_a?(Array) ? ary : ary.to_a
+    value = true
+    return true if ary.empty?
+
+    i = 0
+    if arg.nil? && !block_given?
+      while i < ary.length
+        return false unless ary[i]
+
+        i += 1
+      end
+    elsif arg.nil? && block_given?
+      while i < ary.length
+        return false unless yield(ary[i])
+
+        i += 1
+      end
+    elsif !arg.nil? && !block_given?
+      if arg.is_a?(Class) && !arg.is_a?(Regexp)
+        while i < ary.length
+          return false unless ary[i].is_a?(arg)
+
+          i += 1
+        end
+      elsif arg.is_a?(Regexp)
+        while i < ary.length
+          str = ary[i]
+          str = str.is_a?(String) ? str : str.to_s
+          return false unless arg.match?(str)
+
+          i += 1
+        end
+      elsif !arg.is_a?(Class)
+        while i < ary.length
+          return false unless arg == ary[i]
+
+          i += 1
+        end
+      end
+    end
+
+    value
+  end
 end
 #   def my_inject; end
 # end
 
 
 
-stooges = %w[Larry Curly Moe]
-p stooges.my_each { |stooge, i| print stooge + "\n" + i.to_s }
+# stooges = %w[Larry Curly Moe]
+# p stooges.my_each { |stooge, i| print stooge + "\n" + i.to_s }
 
-contact_info = { 'name' => 'Bob', 'phone' => '111-111-1111' }
-p contact_info.my_each_with_index { |key, value| print key + ' = ' + value + "\n" }
+# contact_info = { 'name' => 'Bob', 'phone' => '111-111-1111' }
+# p contact_info.my_each_with_index { |key, value| print key + ' = ' + value + "\n" }
 
-even_numbers = []
-[1, 2, 3, 4, 5, 6].my_select { |n| even_numbers << n if n.even? }
-p even_numbers
-p [1, 2, 3, 4, 5, 6].my_select { |n| n.even? }
-p [1, 2, 3, 4, 5, 6].my_select(&:even?)
-stock = { apples: 10, oranges: 5, bananas: 1 }
-p stock.my_select { |_k, v| v > 1 }
+# even_numbers = []
+# [1, 2, 3, 4, 5, 6].my_select { |n| even_numbers << n if n.even? }
+# p even_numbers
+# p [1, 2, 3, 4, 5, 6].my_select { |n| n.even? }
+# p [1, 2, 3, 4, 5, 6].my_select(&:even?)
+# stock = { apples: 10, oranges: 5, bananas: 1 }
+# p stock.my_select { |_k, v| v > 1 }
 
-p %w[ant bear cat].my_all? { |word| word.length >= 3 } #=> true
-p %w[ant bear cat].my_all? { |word| word.length >= 4 } #=> false
-p [1, 2i, 3.14].my_all?(Integer) #=> true
-p [nil, true, 99].my_all? #=> false
-p [].my_all? #=> true
-p %w[ant bear cat].my_all?(/t/) #=> false  # DOES NOT WORK YET
+# p %w[ant bear cat].my_all? { |word| word.length >= 3 } #=> true
+# p %w[ant bear cat].my_all? { |word| word.length >= 4 } #=> false
+# p [1, 2i, 3.14].my_all?(Integer) #=> true
+# p [nil, true, 99].my_all? #=> false
+# p [].my_all? #=> true
+# p %w[ant bear cat].my_all?(/t/) #=> false  # DOES NOT WORK YET
 
-p %w[ant bear cat].my_any? { |word| word.length >= 3 } #=> true
-p %w[ant bear cat].my_any? { |word| word.length >= 4 } #=> true
-p [nil, true, 99].my_any?(Integer) #=> true
-p [nil, false].my_any? #=> true
-p [].my_any? #=> false
-p %w[ant bear cat].my_any?(/d/) #=> false  # DOES NOT WORK YET
+# p %w[ant bear cat].my_any? { |word| word.length >= 3 } #=> true
+# p %w[ant bear cat].my_any? { |word| word.length >= 4 } #=> true
+# p [nil, true, 99].my_any?(Integer) #=> true
+# p [nil, false].my_any? #=> true
+# p [].my_any? #=> false
+# p %w[ant bear cat].my_any?(/d/) #=> false  # DOES NOT WORK YET
 
-p %w[ant bear cat].my_none? { |word| word.length == 5 } #=> true
-p %w[ant bear cat].my_none? { |word| word.length >= 4 } #=> false
-p [1, 3.14, 42].my_none?(Float) #=> false
-p [].my_none? #=> true
-p [nil].my_none? #=> true
-p [nil, false].my_none? #=> true
-p [nil, false, true].my_none? #=> false
-p %w[ant bear cat].my_none?(/t/) #=> true  # DOES NOT WORK YET
+# p %w[ant bear cat].my_none? { |word| word.length == 5 } #=> true
+# p %w[ant bear cat].my_none? { |word| word.length >= 4 } #=> false
+# p [1, 3.14, 42].my_none?(Float) #=> false
+# p [].my_none? #=> true
+# p [nil].my_none? #=> true
+# p [nil, false].my_none? #=> true
+# p [nil, false, true].my_none? #=> false
+# p %w[ant bear cat].my_none?(/t/) #=> true  # DOES NOT WORK YET
 
-p array.my_count #=> 7
-p array.my_count(2) #=> 1
-p num_array.my_count { |x| x.even? } #=> 4
+# p array.my_count #=> 7
+# p array.my_count(2) #=> 1
+# p num_array.my_count { |x| x.even? } #=> 4
 
 
 
