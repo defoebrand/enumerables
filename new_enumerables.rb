@@ -68,17 +68,16 @@ module Enumerable
   end
 
   def my_select(&block)
-    if self.class == Array
-      query = []
-      array_iterator { |n| query << n if block.call(n) == true }
-      query
-    elsif self.class == Hash
-      query = {}
+    hash_query = {}
+    array_query = []
+    if self.class != Hash
+      type_check { |n| array_query << n if block.call(n) == true }
+      array_query
+    else
       0.upto(length - 1) do |ind|
-        query[keys[ind]] = values[ind] unless block.call(keys[ind], values[ind]) == false
-        query
+        hash_query[keys[ind]] = values[ind] unless block.call(keys[ind], values[ind]) == false
+        hash_query
       end
-      query
     end
   end
 
