@@ -1,7 +1,6 @@
-require './new_enumerables'
+require './enumerables'
 
-hash = { type: 'tree', fruit: false, count: 3 }
-hash2 = { apples: 10, oranges: 5, bananas: 1 }
+hash = {}
 array = [5, 4, 3, 2, 1, 'hello', 'world']
 num_array = [9, 8, 7, 6, 2, 3, 4, 5]
 stooges = %w[Larry Curly Moe]
@@ -9,12 +8,18 @@ contact_info = { 'name' => 'Bob', 'phone' => '111-111-1111' }
 even_numbers = []
 stock = { apples: 10, oranges: 5, bananas: 1 }
 a = %w[a b c d]
+longest = %w[cat sheep bear].my_inject { |memo, word| memo.length > word.length ? memo : word }
 
 puts 'Default Tests'
 puts ''
 
 p(stooges.each { |stooge| print stooge + "\n" })
 p(contact_info.each { |key, value| print key + ' = ' + value + "\n" })
+
+%w[cat dog wombat].each_with_index do |item, index|
+  hash[item] = index
+end
+p hash #=> {"cat"=>0, "dog"=>1, "wombat"=>2}
 
 [1, 2, 3, 4, 5, 6].select { |n| even_numbers << n if n.even? }
 p even_numbers
@@ -75,17 +80,14 @@ p (5..10).inject(1, :*)
 p(5..10).inject(1) { |product, n| product * n }
 p(5..8).inject(0) { |result_memo, object| result_memo + object } # =>
 p [5, 6, 7, 8].inject(0) { |result_memo, object| result_memo + object } # => 26
-longest = %w[cat sheep bear].inject do |memo, word|
-  memo.length > word.length ? memo : word
-end
 p longest
 
 # # = = = = = = = =  MY ENUMERABLES TESTS = = = = = = = = # #
 puts ''
 puts 'My Enumerables Tests'
 puts ''
-hash = { type: 'tree', fruit: false, count: 3 }
-hash2 = { apples: 10, oranges: 5, bananas: 1 }
+
+hash = {}
 array = [5, 4, 3, 2, 1, 'hello', 'world']
 num_array = [9, 8, 7, 6, 2, 3, 4, 5]
 stooges = %w[Larry Curly Moe]
@@ -93,9 +95,16 @@ contact_info = { 'name' => 'Bob', 'phone' => '111-111-1111' }
 even_numbers = []
 stock = { apples: 10, oranges: 5, bananas: 1 }
 a = %w[a b c d]
+longest = %w[cat sheep bear].my_inject { |memo, word| memo.length > word.length ? memo : word }
 
 p(stooges.my_each { |stooge| print stooge + "\n" })
 p(contact_info.my_each { |key, value| print key + ' = ' + value + "\n" })
+
+%w[cat dog wombat].my_each_with_index do |item, index|
+  hash[item] = index
+end
+p hash #=> {"cat"=>0, "dog"=>1, "wombat"=>2}
+
 [1, 2, 3, 4, 5, 6].my_select { |n| even_numbers << n if n.even? }
 p even_numbers
 p([1, 2, 3, 4, 5, 6].my_select(&:even?))
@@ -148,17 +157,12 @@ p([1, 2, 3, 4].my_map { |i| i * i }) #=> [1, 4, 9, 16]
 p([1, 2, 3, 4].my_map { 'cat' }) #=> ["cat", "cat", "cat", "cat"]
 p(a.my_map { |x| x + '!' }) #=> ["a!", "b!", "c!", "d!"]
 p a #=> ["a", "b", "c", "d"]
-#
 
-p (5..10).inject(:+)
-p [1, 2, 3, 5, 8].inject(:+)
-p (5..10).inject(1, :*)
-p(5..10).inject(1) { |product, n| product * n }
-p(5..8).inject(0) { |result_memo, object| result_memo + object } # =>
-p [5, 6, 7, 8].inject(0) { |result_memo, object| result_memo + object } # => 26
-longest = %w[cat sheep bear].inject do |memo, word|
-  memo.length > word.length ? memo : word
-end
+p (5..10).my_inject(:+)
+p [1, 2, 3, 5, 8].my_inject(:+)
+p (5..10).my_inject(1, :*)
+p(5..10).my_inject(1) { |product, n| product * n }
+p(5..8).my_inject(0) { |result_memo, object| result_memo + object } # =>
+p [5, 6, 7, 8].my_inject(0) { |result_memo, object| result_memo + object } # => 26
 p longest
-
 p multiply_els([2, 4, 5])
