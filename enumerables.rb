@@ -1,12 +1,30 @@
+require 'pry'
 def hash_engine(&block)
   0.upto(length - 1) { |index| block.call(keys[index], values[index]) }
   self
 end
 
 def array_engine(&block)
-  array = convert_to_array
+  0.upto(length - 1) { |index| block.call(self[index], index) }
+  self
+end
+
+def range_engine(&block)
+  array = [*self]
   0.upto(array.length - 1) { |index| block.call(array[index], index) }
   array
+end
+
+def engine_select_block_check(&block)
+  return to_enum unless block_given?
+
+  if self.class == Hash
+    hash_engine(&block)
+  elsif self.class == Array
+    array_engine(&block)
+  elsif self.class == Range
+    range_engine(&block)
+  end
 end
 
 def convert_to_array
@@ -16,16 +34,6 @@ def convert_to_array
             self
           end
   array
-end
-
-def engine_select_block_check(&block)
-  return to_enum unless block_given?
-
-  if self.class != Hash
-    array_engine(&block)
-  else
-    hash_engine(&block)
-  end
 end
 
 def class_check(arg)
@@ -51,16 +59,19 @@ def numeric_inclusion(arg_class)
 end
 
 def t_f_test(arg, &block)
-  return true unless block.call(arg).nil? || block.call(arg) == false
+  var = block.call(arg)
+  return true unless var.nil? || var == false
 end
 
 module Enumerable
   def my_each(&block)
     engine_select_block_check(&block)
+    self
   end
 
   def my_each_with_index(_arg = nil, &block)
     my_each(&block)
+    self
   end
 
   def my_select(&block)
@@ -68,21 +79,22 @@ module Enumerable
 
     hash_query = {}
     array_query = []
-    if self.class != Hash
-      engine_select_block_check { |n| array_query << n if t_f_test(n, &block) }
-    else
+    if self.class == Hash
       0.upto(length - 1) do |ind|
         hash_query[keys[ind]] = values[ind] unless block.call(keys[ind], values[ind]) == false
       end
+    else
+      engine_select_block_check { |val| array_query << val if t_f_test(val, &block) }
     end
     array_query.empty? ? hash_query : array_query
   end
 
   def my_all?(arg = nil, &block)
+    array = convert_to_array
     if block_given?
-      my_select(&block).length == length
+      my_select(&block).length == array.length
     else
-      class_check(arg).length == length
+      class_check(arg).length == array.length
     end
   end
 
