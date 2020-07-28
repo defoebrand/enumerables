@@ -79,10 +79,6 @@ module Enumerable
   def my_all?(arg = nil, &block)
     if block_given?
       my_select(&block).length == length
-    # elsif arg.nil?
-    #   array_query = []
-    #   engine_select_block_check { |n| array_query << n if n }
-    #   array_query.length == length
     else
       class_check(arg).length == length
     end
@@ -119,9 +115,9 @@ module Enumerable
   def my_map(proc = nil)
     query = []
     if proc
-      type_check { |n| query << proc.call(n) }
+      engine_select_block_check { |n| query << proc.call(n) }
     elsif block_given?
-      type_check { |n| query << yield(n) }
+      engine_select_block_check { |n| query << yield(n) }
     else
       return to_enum
     end
@@ -129,14 +125,13 @@ module Enumerable
   end
 
   def my_inject(*args)
-    arg = multiple_args(*args)
     array = convert_to_array
-    if args[0].class == Symbol && !block_given?
-      0.upto(array.length - 1) { |ind| arg = arg.send args[0], array[ind] }
-    elsif args[1].class == Symbol && !block_given?
-      0.upto(array.length - 1) { |ind| arg = arg.send args[1], array[ind] }
+    arg = args[0].is_a?(Numeric) ? args[0] : array[0]
+    inject_symbol = args.my_select { |x| x.class == Symbol }
+    if inject_symbol.empty?
+      0.upto(array.length - 2) { |ind| arg = yield(arg, array[ind + 1]) }
     else
-      0.upto(array.length - 1) { |ind| arg = yield(arg, array[ind]) }
+      0.upto(array.length - 2) { |ind| arg = arg.send(inject_symbol[0], array[ind + 1]) }
     end
     arg
   end
