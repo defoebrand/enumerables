@@ -21,8 +21,11 @@ end
 def engine_select_block_check(&block)
   return to_enum unless block_given?
 
-  hash_engine(&block) unless self.class != Hash
-  array_engine(&block)
+  if self.class != Hash
+    array_engine(&block)
+  else
+    hash_engine(&block)
+  end
 end
 
 def class_check(arg)
@@ -76,10 +79,10 @@ module Enumerable
   def my_all?(arg = nil, &block)
     if block_given?
       my_select(&block).length == length
-    elsif arg.nil?
-      array_query = []
-      type_check { |n| array_query << n if n }
-      array_query.length == length
+    # elsif arg.nil?
+    #   array_query = []
+    #   engine_select_block_check { |n| array_query << n if n }
+    #   array_query.length == length
     else
       class_check(arg).length == length
     end
