@@ -19,7 +19,7 @@ p stooges.each
 p(contact_info.each { |key, value| print key + ' = ' + value + "\n" })
 
 (1..5).each_with_index { |num, ind| p "#{num}: #{ind}" }
-p (1..5).each_with_index
+p(1..5).each_with_index
 %w[cat dog wombat].each_with_index do |item, index|
   hash[item] = index
 end
@@ -119,7 +119,7 @@ p stooges.my_each
 p(contact_info.my_each { |key, value| print key + ' = ' + value + "\n" })
 
 (1..5).my_each_with_index { |num, ind| p "#{num}: #{ind}" }
-p (1..5).my_each_with_index
+p(1..5).my_each_with_index
 %w[cat dog wombat].my_each_with_index do |item, index|
   hash[item] = index
 end
