@@ -1,3 +1,4 @@
+require 'pry'
 def hash_engine(&block)
   0.upto(length - 1) { |index| block.call(keys[index], values[index]) }
   self
@@ -50,6 +51,10 @@ def numeric_inclusion(arg_class)
   end
 end
 
+def t_f_test(arg, &block)
+  return true unless block.call(arg).nil? || block.call(arg) == false
+end
+
 module Enumerable
   def my_each(&block)
     engine_select_block_check(&block)
@@ -65,12 +70,10 @@ module Enumerable
     hash_query = {}
     array_query = []
     if self.class != Hash
-      engine_select_block_check { |n| array_query << n if block.call(n) == true }
-      array_query
+      engine_select_block_check { |n| array_query << n if t_f_test(n, &block) }
     else
       0.upto(length - 1) do |ind|
         hash_query[keys[ind]] = values[ind] unless block.call(keys[ind], values[ind]) == false
-        hash_query
       end
     end
     array_query.empty? ? hash_query : array_query
@@ -128,10 +131,11 @@ module Enumerable
     array = convert_to_array
     arg = args[0].is_a?(Numeric) ? args[0] : array[0]
     inject_symbol = args.my_select { |x| x.class == Symbol }
+    offset = arg == array[0] ? 1 : 0
     if inject_symbol.empty?
-      0.upto(array.length - 2) { |ind| arg = yield(arg, array[ind + 1]) }
+      0.upto(array.length - (1 + offset)) { |ind| arg = yield(arg, array[ind + offset]) }
     else
-      0.upto(array.length - 2) { |ind| arg = arg.send(inject_symbol[0], array[ind + 1]) }
+      0.upto(array.length - (1 + offset)) { |ind| arg = arg.send(inject_symbol[0], array[ind + offset]) }
     end
     arg
   end
