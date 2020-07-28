@@ -17,6 +17,7 @@ puts ''
 p(stooges.each { |stooge| print stooge + "\n" })
 p stooges.each
 p(1..5).each { |x| p x }
+array.each.is_a?(Enumerator)
 p(1..5).each_with_index { |num, ind| "#{num}: #{ind}" }
 p(contact_info.each { |key, value| print key + ' = ' + value + "\n" })
 p(1..5).each_with_index
@@ -24,6 +25,7 @@ p(1..5).each_with_index
   hash[item] = index
 end
 p hash #=> {"cat"=>0, "dog"=>1, "wombat"=>2}
+p array.each_with_index.is_a?(Enumerator)
 
 p even_numbers
 p(1..6).select { |n| even_numbers << n if n.even? }
@@ -119,6 +121,7 @@ check = [2, 1, 3, 4, 5]
 p(stooges.my_each { |stooge| print stooge + "\n" })
 p stooges.my_each
 p(1..5).my_each { |x| p x }
+array.my_each.is_a?(Enumerator)
 p(1..5).my_each_with_index { |num, ind| "#{num}: #{ind}" }
 p(contact_info.my_each { |key, value| print key + ' = ' + value + "\n" })
 p(1..5).my_each_with_index
@@ -126,6 +129,7 @@ p(1..5).my_each_with_index
   hash[item] = index
 end
 p hash #=> {"cat"=>0, "dog"=>1, "wombat"=>2}
+p array.my_each_with_index.is_a?(Enumerator)
 
 p even_numbers
 p(1..6).my_select { |n| even_numbers << n if n.even? }
