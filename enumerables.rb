@@ -1,4 +1,4 @@
-require 'pry'
+
 def hash_engine(&block)
   0.upto(length - 1) { |index| block.call(keys[index], values[index]) }
   self
