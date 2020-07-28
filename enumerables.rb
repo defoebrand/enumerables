@@ -4,32 +4,30 @@ def hash_engine(&block)
 end
 
 def array_engine(&block)
-  0.upto(length - 1) { |index| block.call(self[index], index) }
-  self
+  array = convert_to_array
+  0.upto(array.length - 1) { |index| block.call(array[index], index) }
+  array
 end
 
-def range_engine(arg = nil, &block)
-  array = *self
-  0.upto(arg.length - 1) { |index| block.call(array[index], index) }
+def convert_to_array
+  array = if self.class == Range
+            [*self]
+          else
+            self
+          end
   array
 end
 
 def engine_select_block_check(&block)
   return to_enum unless block_given?
 
-  if self.class == Hash
-    hash_engine(&block)
-  elsif self.class == Array
-    array_engine(&block)
-  elsif self.class == Range
-    array = [*self]
-    range_engine(array, &block)
-  end
+  hash_engine(&block) unless self.class != Hash
+  array_engine(&block)
 end
 
 def class_check(arg)
   if arg.class == NilClass
-    my_select { |x| x == true }
+    my_select { |x| x }
   elsif arg.class == Regexp
     my_select { |x| x.match?(arg) }
   elsif arg.class == String
@@ -37,7 +35,7 @@ def class_check(arg)
   elsif arg.class == Integer
     my_select { |x| x == arg }
   elsif arg.class == Class
-    numeric_class(arg)
+    numeric_inclusion(arg)
   end
 end
 
@@ -49,22 +47,9 @@ def numeric_inclusion(arg_class)
   end
 end
 
-def convert_to_array
-  array = if self.class == Range
-            [*self]
-          elsif self.class == Hash
-            flatten
-          else
-            self
-          end
-  array
-end
-
 module Enumerable
   def my_each(&block)
-    return to_enum(:my_each) unless block_given?
-
-    type_check(&block)
+    engine_select_block_check(&block)
   end
 
   def my_each_with_index(_arg = nil, &block)
@@ -72,12 +57,12 @@ module Enumerable
   end
 
   def my_select(&block)
-    return to_enum(:my_each) unless block_given?
+    return to_enum unless block_given?
 
     hash_query = {}
     array_query = []
     if self.class != Hash
-      type_check { |n| array_query << n if block.call(n) == true }
+      engine_select_block_check { |n| array_query << n if block.call(n) == true }
       array_query
     else
       0.upto(length - 1) do |ind|
@@ -85,6 +70,7 @@ module Enumerable
         hash_query
       end
     end
+    array_query.empty? ? hash_query : array_query
   end
 
   def my_all?(arg = nil, &block)

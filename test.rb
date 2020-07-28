@@ -12,11 +12,13 @@ longest = %w[cat sheep bear]
 
 puts 'Default Tests'
 puts ''
+
 p(stooges.each { |stooge| print stooge + "\n" })
 p stooges.each
 p(contact_info.each { |key, value| print key + ' = ' + value + "\n" })
 
-p(1..5).my_each_with_index { |num, ind| "#{num}: #{ind}" }
+(1..5).each_with_index { |num, ind| p "#{num}: #{ind}" }
+p(1..5).each_with_index
 %w[cat dog wombat].each_with_index do |item, index|
   hash[item] = index
 end
@@ -24,10 +26,12 @@ p hash #=> {"cat"=>0, "dog"=>1, "wombat"=>2}
 
 [1, 2, 3, 4, 5, 6].select { |n| even_numbers << n if n.even? }
 p even_numbers
-p([1, 2, 3, 4, 5, 6].select(&:even?))
+p((1..6).select(&:even?))
 p [1, 2, 3, 4, 5, 6].select(&:even?)
 p(stock.select { |_k, v| v > 1 })
-p(contact_info.my_select { |_k, v| v == 'Bob' })
+p stock
+p(contact_info.select { |_k, v| v == 'Bob' })
+p contact_info
 
 p(%w[ant bear cat].all? { |word| word.length >= 3 }) #=> true
 p(%w[ant bear cat].all? { |word| word.length >= 4 }) #=> false
@@ -41,6 +45,7 @@ p %w[Marc Luc Jean].all?(/a/) # => false
 #
 p(%w[ant bear cat].any? { |word| word.length >= 3 }) #=> true
 p(%w[ant bear cat].any? { |word| word.length >= 4 }) #=> true
+p(%w[ant bear cat].all? { |word| word == 'cow' }) #=> false
 p [nil, true, 99].any?(Integer) #=> true
 p [nil, false].any? #=> true
 p [].any? #=> false
@@ -104,7 +109,8 @@ p(stooges.my_each { |stooge| print stooge + "\n" })
 p stooges.my_each
 p(contact_info.my_each { |key, value| print key + ' = ' + value + "\n" })
 
-p(1..5).my_each_with_index { |num, ind| "#{num}: #{ind}" }
+(1..5).my_each_with_index { |num, ind| p "#{num}: #{ind}" }
+p (1..5).my_each_with_index
 %w[cat dog wombat].my_each_with_index do |item, index|
   hash[item] = index
 end
@@ -112,10 +118,13 @@ p hash #=> {"cat"=>0, "dog"=>1, "wombat"=>2}
 
 [1, 2, 3, 4, 5, 6].my_select { |n| even_numbers << n if n.even? }
 p even_numbers
-p([1, 2, 3, 4, 5, 6].my_select(&:even?))
+p((1..6).my_select(&:even?))
 p [1, 2, 3, 4, 5, 6].my_select(&:even?)
-p(stock.select { |_k, v| v > 1 })
+p [1, 2, 3, 4, 5, 6].my_select
+p(stock.my_select { |_k, v| v > 1 })
+p stock
 p(contact_info.my_select { |_k, v| v == 'Bob' })
+p contact_info
 
 p(%w[ant bear cat].my_all? { |word| word.length >= 3 }) #=> true
 p(%w[ant bear cat].my_all? { |word| word.length >= 4 }) #=> false
@@ -170,6 +179,11 @@ p(5..10).my_inject(1, :*)
 p(5..10).my_inject(1) { |product, n| product * n }
 p(5..8).my_inject(0) { |result_memo, object| result_memo + object } # =>
 p [5, 6, 7, 8].my_inject(0) { |result_memo, object| result_memo + object } # => 26
+p(5..10).my_inject { |sum, n| sum + n }
 p(longest.my_inject { |memo, word| memo.length > word.length ? memo : word })
 p longest
-# p multiply_els([2, 4, 5])
+p multiply_els([2, 4, 5])
+p [2, 3, 5, 6, 1, 7, 5, 3, 9].my_inject { |sum, n| sum * n }
+check = [2, 1, 3, 4, 5]
+p check.my_inject { |sum, n| sum * n }
+p check
