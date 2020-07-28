@@ -64,11 +64,15 @@ end
 
 module Enumerable
   def my_each(&block)
+    return to_enum unless block_given?
+
     engine_select_block_check(&block)
     self
   end
 
   def my_each_with_index(_arg = nil, &block)
+    return to_enum unless block_given?
+
     my_each(&block)
     self
   end
