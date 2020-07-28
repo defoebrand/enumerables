@@ -14,16 +14,17 @@ def range_engine(arg = nil, &block)
   array
 end
 
-def numeric_class(arg)
-  if arg == Numeric
-    my_select { |x| handle_numeric(x) }
-  else
-    my_select { |x| x.class == arg }
-  end
-end
+def engine_select_block_check(&block)
+  return to_enum unless block_given?
 
-def handle_numeric(arg)
-  true if arg.class == Integer || arg.class == Float || arg.class == Complex
+  if self.class == Hash
+    hash_engine(&block)
+  elsif self.class == Array
+    array_engine(&block)
+  elsif self.class == Range
+    array = [*self]
+    range_engine(array, &block)
+  end
 end
 
 def class_check(arg)
@@ -40,14 +41,11 @@ def class_check(arg)
   end
 end
 
-def type_check(&block)
-  if self.class == Hash
-    hash_iterator(&block)
-  elsif self.class == Array
-    array_iterator(&block)
-  elsif self.class == Range
-    array = [*self]
-    range_iterator(array, &block)
+def numeric_inclusion(arg_class)
+  if arg_class == Numeric
+    my_select { |arg| true if arg.class == Integer || arg.class == Float || arg.class == Complex }
+  else
+    my_select { |x| x.class == arg_class }
   end
 end
 
@@ -60,16 +58,6 @@ def convert_to_array
             self
           end
   array
-end
-
-def multiple_args(*args)
-  if args[0].nil?
-    ''
-  elsif args[0].class == Symbol
-    0
-  else
-    args[0]
-  end
 end
 
 module Enumerable
