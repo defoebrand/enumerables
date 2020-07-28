@@ -1,18 +1,16 @@
-require 'pry'
-
-def hash_iterator(&block)
-  0.upto(length - 1) { |ind| block.call(keys[ind], values[ind]) }
+def hash_engine(&block)
+  0.upto(length - 1) { |index| block.call(keys[index], values[index]) }
   self
 end
 
-def array_iterator(&block)
-  0.upto(length - 1) { |ind| block.call(self[ind], ind) }
+def array_engine(&block)
+  0.upto(length - 1) { |index| block.call(self[index], index) }
   self
 end
 
-def range_iterator(arg = nil, &block)
+def range_engine(arg = nil, &block)
   array = *self
-  0.upto(arg.length - 1) { |ind| block.call(array[ind], ind) }
+  0.upto(arg.length - 1) { |index| block.call(array[index], index) }
   array
 end
 
