@@ -1,9 +1,14 @@
 def hash_engine(&block)
-  0.upto(length - 1) { |index| block.call(keys[index], values[index]) }
+  0.upto(length - 1) { |index| block.call(keys[index], values[index], index) }
   self
 end
 
 def array_engine(&block)
+  0.upto(length - 1) { |index| block.call(self[index]) }
+  self
+end
+
+def array_engine_with_index(&block)
   0.upto(length - 1) { |index| block.call(self[index], index) }
   self
 end
@@ -14,13 +19,13 @@ def range_engine(&block)
   array
 end
 
-def engine_select_block_check(&block)
+def engine_select_block_check(index = nil, &block)
   return to_enum unless block_given?
 
   if self.class == Hash
     hash_engine(&block)
   elsif self.class == Array
-    array_engine(&block)
+    index ? array_engine_with_index(&block) : array_engine(&block)
   elsif self.class == Range
     range_engine(&block)
   end
@@ -39,7 +44,7 @@ def class_check(arg)
   if arg.class == NilClass
     my_select { |x| x }
   elsif arg.class == Regexp
-    my_select { |x| x.match?(arg) }
+    my_select { |x| x.to_s.match?(arg) }
   elsif arg.class == String
     my_select { |x| x.include?(arg) }
   elsif arg.class == Integer
@@ -73,27 +78,34 @@ module Enumerable
   def my_each_with_index(_arg = nil, &block)
     return to_enum unless block_given?
 
-    my_each(&block)
+    index = true
+    engine_select_block_check(index, &block)
     self
   end
 
   def my_select(&block)
     return to_enum unless block_given?
 
-    hash_query = {}
-    array_query = []
     if self.class == Hash
+      query = {}
       0.upto(length - 1) do |ind|
-        hash_query[keys[ind]] = values[ind] unless block.call(keys[ind], values[ind]) == false
+        query[keys[ind]] = values[ind] unless block.call(keys[ind], values[ind], ind) == false
       end
     else
-      engine_select_block_check { |val| array_query << val if t_f_test(val, &block) }
+      query = []
+      engine_select_block_check { |val| query << val if t_f_test(val, &block) }
     end
-    array_query.empty? ? hash_query : array_query
+    query
   end
 
   def my_all?(arg = nil, &block)
     array = convert_to_array
+    if arg
+      class_check(arg).length == array.length
+    elsif block_given?
+      my_select(&block).length == array.length
+    end
+
     if block_given?
       my_select(&block).length == array.length
     else

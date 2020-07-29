@@ -134,7 +134,8 @@ p array.my_each_with_index.is_a?(Enumerator)
 p even_numbers
 p(1..6).my_select { |n| even_numbers << n if n.even? }
 p even_numbers
-p((1..6).my_select(&:even?))
+testing = (5..50).my_select(&:even?)
+p testing
 p(1..5).my_select { |x| x > 2 }
 p [1, 2, 3, 4, 5, 6].my_select(&:even?)
 p [1, 2, 3, 4, 5, 6].my_select
@@ -206,3 +207,23 @@ p(check.my_inject { |sum, n| sum * n })
 p check
 
 p multiply_els([2, 4, 5])
+
+new_hash = { a: 1, b: 2, c: 3, d: 4, e: 5 }
+new_hash.my_each { |x, v, ind| p [x, v]; p ind }
+new_hash.my_select { |k, v, ind| p [k, v] if v > 2; p ind }
+
+test = (1..5).my_select { |v| v > 2 }
+p test
+
+r = []
+p [2, 4, 5].my_each { |item| r << item.to_i * item.to_i }
+p r
+test_arr1 = [34, 100, 1, 3, 5]
+
+p test_arr1.my_all?(/\w+/)
+arr = [2, 4, 5]
+r = arr.my_select {}
+p r
+
+test = (1...5).my_each { |element| element.even? }
+p test
