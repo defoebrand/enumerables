@@ -209,14 +209,20 @@ p check
 p multiply_els([2, 4, 5])
 
 new_hash = { a: 1, b: 2, c: 3, d: 4, e: 5 }
-new_hash.my_each { |x, v, ind| p [x, v]; p ind }
-new_hash.my_select { |k, v, ind| p [k, v] if v > 2; p ind }
+new_hash.my_each do |x, v, ind|
+  p [x, v]
+  p ind
+end
+new_hash.my_select do |k, v, ind|
+  p [k, v] if v > 2
+  p ind
+end
 
 test = (1..5).my_select { |v| v > 2 }
 p test
 
 r = []
-p [2, 4, 5].my_each { |item| r << item.to_i * item.to_i }
+p([2, 4, 5].my_each { |item| r << item.to_i * item.to_i })
 p r
 test_arr1 = [34, 100, 1, 3, 5]
 
@@ -225,5 +231,5 @@ arr = [2, 4, 5]
 r = arr.my_select {}
 p r
 
-test = (1...5).my_each { |element| element.even? }
+test = (1...5).my_each(&:even)
 p test
