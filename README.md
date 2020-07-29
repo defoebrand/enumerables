@@ -1,10 +1,19 @@
-# enumerable Ruby Project
+# Enumerable Ruby Project
 
 This is Brandon and Kalu's enumerable Ruby project
 
-![Screenshot](screenshot.png)
+This project was compiled by Kalu and Brandon in the Ruby section of the Microverse course work. It involved using ruby to create my_methods.
 
-This project was compiled by Kalu and Brandon in the Ruby section of the Microverse course work. It involved using ruby to create a sorting method.
+-   my_each
+-   my_each_with_index
+-   my_select
+-   my_all?
+-   my_any?
+-   my_none?
+-   my_count
+-   my_map
+-   my_inject
+-   multiply_els
 
 ## Built With
 
@@ -19,13 +28,23 @@ To get your own copy of our project simply clone the repository to your local ma
 
 **Step 1**: Type the following command into a git shell
 
-_git clone <https://github.com/defoebrand/bubble_sort.git>_
+_git clone <https://github.com/defoebrand/enumerables.git>_
 
 **Step 2**: Direct a terminal into the cloned repository directory
 
-_cd bubble_sort_
+_cd enumerables_
 
 **Step 3**: Run the program from command line, open it in irb, or edit it in a text editor
+
+## To Test
+
+**Step 1**:
+
+_Visit this site <https://repl.it/@defoebrand/enumerables#test.rb>_
+
+**Step 2**:
+
+_Click run_
 
 ## Author
 
