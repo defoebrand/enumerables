@@ -117,6 +117,12 @@ describe Enumerable do
 		end
 
 	end
+
+	describe "my_any?" do
+		it "returns true if at least one element in the array matches the condition in the block" do
+			expect(names.my_any? {|x| x.length > 3}).to be true
+		end
+	end
 	
 
 end
