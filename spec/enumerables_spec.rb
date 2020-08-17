@@ -112,6 +112,10 @@ describe Enumerable do
 			expect([true, 5, nil].my_all?).to be false
 		end
 
+		it "returns false if at least one element in the array does not match the argument given" do
+			expect(array.my_all?(3)).to be false
+		end
+
 	end
 	
 
