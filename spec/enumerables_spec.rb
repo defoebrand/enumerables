@@ -1,7 +1,7 @@
 require './enumerables'
 
 describe Enumerable do
-	let(:array) { [1, 2, 3, 4] }
+	let(:array) { [1, 2, 3, 2, 4] }
 	let(:names) { %w[Kalu Ahmad Defoe Roy] }
 	let(:hash) { {one: 1, two: 2, three: 3} }
 	let(:range) { Range.new(1, 10) }
@@ -118,11 +118,84 @@ describe Enumerable do
 
 	end
 
-	describe "my_any?" do
+	describe "#my_any?" do
 		it "returns true if at least one element in the array matches the condition in the block" do
 			expect(names.my_any? {|x| x.length > 3}).to be true
 		end
 	end
-	
+
+		it "returns false if at least one element in the array does not match the regex" do
+		expect(names.my_any?(/t/)).to be false
+	end
+
+		it "returns false if the array is empty and block is not given" do
+		expect([].my_any?).to be false
+	end
+
+		it "returns true if at least one element in the array is a nil and no block given" do
+		expect([true, 5, nil].my_any?).to be true
+	end
+
+		it "returns true if all the element in the array match the object type and block is not given" do
+		expect([true, 5, nil].my_any?(Integer)).to be true
+	end
+
+	describe "#my_none?" do
+		it "returns false if at least one element in the array matches the condition in the block" do
+			expect(names.my_none? {|x| x.length >= 3}).to be false
+		end
+
+		it "returns true if at least one element in the array matches the condition in the block" do
+			expect(names.my_none? {|x| x.length == 8}).to be true
+		end
+
+		it "returns true if the array is empty and block is not given" do
+			expect([].my_none?).to be true
+		end
+
+		it "returns false if all the element in the array match the object type and block is not given" do
+			expect([1, 2, 3.14].my_none?(Float)).to be false
+		end
+
+		it "returns true if at least one element in the array does not match the regex" do
+			expect(names.my_none?(/t/)).to be true
+		end
+	end
+
+	describe "#my_count" do
+			it 'returns the elements in the array that passed the condition' do
+			expect(array.my_count).to eql(5)
+		end
+			it 'returns the elements in the array that passed the condition' do
+			expect(hash.my_count(2)).to eql(0)
+		end
+		
+			it 'returns the elements in the array that passed the condition' do
+			expect(array.my_count(2)).to eql(2)
+		end
+
+			it "returns the elements in the array that are divisible by two without a remainder" do
+			expect(array.my_count{ |x| x % 2 ==0 }).to eql(3)
+		end
+	end
+
+	describe "#my_map" do
+		  it 'returns to an Enumerator if block is not given' do
+			expect(array.my_map).to be_an(Enumerator)
+		end
+
+		  it 'returns the elements in the array that passed the condition in the block' do
+			expect(array.my_map { |x| x * x }).to eql([1, 4, 9, 4, 16])
+		end
+
+		  it 'returns the elements in the array that passed the condition in the block' do
+			expect(range.my_map { |x| x * x }).to eql([1, 4, 9, 16, 25, 36, 49, 64, 81, 100])
+		end
+
+		  it 'returns the elements in the array that passed the condition in the block' do
+			expect(names.my_map { |x| x.upcase}).to eql( %w[KALU AHMAD DEFOE ROY] )
+		end
+
+	end
 
 end
