@@ -1,15 +1,15 @@
-require './enumerables'
+# require './enumerables'
 
-hash = {}
-array = [5, 4, 3, 2, 1, 'hello', 'world']
-num_array = [9, 8, 7, 6, 2, 3, 4, 5]
-stooges = %w[Larry Curly Moe]
-contact_info = { 'name' => 'Bob', 'phone' => '111-111-1111' }
-even_numbers = []
-stock = { apples: 10, oranges: 5, bananas: 1 }
-a = %w[a b c d]
-longest = %w[cat sheep bear]
-check = [2, 1, 3, 4, 5]
+# hash = {}
+# array = [5, 4, 3, 2, 1, 'hello', 'world']
+# num_array = [9, 8, 7, 6, 2, 3, 4, 5]
+# stooges = %w[Larry Curly Moe]
+# contact_info = { 'name' => 'Bob', 'phone' => '111-111-1111' }
+# even_numbers = []
+# stock = { apples: 10, oranges: 5, bananas: 1 }
+# a = %w[a b c d]
+# longest = %w[cat sheep bear]
+# check = [2, 1, 3, 4, 5]
 
 # puts 'Default Tests'
 # puts ''
