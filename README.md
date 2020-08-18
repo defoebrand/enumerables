@@ -1,8 +1,8 @@
 # Enumerable Ruby Project
 
-This is Brandon and Kalu's enumerable Ruby project
+This is Brandon and Kalu's enumerable Ruby project and tested with Ahmad
 
-This project was compiled by Kalu and Brandon in the Ruby section of the Microverse course work. It involved using ruby to create my_methods.
+This project was compiled by Kalu and Brandon and tested with Ahmad in the Ruby section of the Microverse course work. It involved using ruby to create my_methods.
 
 -   my_each
 -   my_each_with_index
@@ -21,6 +21,7 @@ This project was compiled by Kalu and Brandon in the Ruby section of the Microve
 -   Atom & VS Code
 -   Ubuntu
 -   Rubocop linter was used to check for style errors
+-   Rspec was used for testing
 
 ## Getting Started
 
@@ -58,6 +59,12 @@ _Click run_
 -   [Github](https://github.com/Godswilly)
 -   [Twitter](https://twitter.com/KaluAguKalu17)
 -   [Linkedin](https://www.linkedin.com/in/kalu-agu-kalu/)
+
+👤 **Ahmad Chata**
+
+-   [Github](https://github.com/ahmadchata)
+-   [Twitter](https://twitter.com/ahmadchata)
+-   [Linkedin](https://www.linkedin.com/in/ahmad-chata-957b9b51/)
 
 ## 🤝 Contributing
 
