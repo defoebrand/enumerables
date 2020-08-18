@@ -122,22 +122,22 @@ describe Enumerable do
 		it "returns true if at least one element in the array matches the condition in the block" do
 			expect(names.my_any? {|x| x.length > 3}).to be true
 		end
-	end
 
 		it "returns false if at least one element in the array does not match the regex" do
-		expect(names.my_any?(/t/)).to be false
-	end
+			expect(names.my_any?(/t/)).to be false
+		end
 
 		it "returns false if the array is empty and block is not given" do
-		expect([].my_any?).to be false
-	end
+			expect([].my_any?).to be false
+		end
 
 		it "returns true if at least one element in the array is a nil and no block given" do
-		expect([true, 5, nil].my_any?).to be true
-	end
+			expect([true, 5, nil].my_any?).to be true
+		end
 
 		it "returns true if all the element in the array match the object type and block is not given" do
-		expect([true, 5, nil].my_any?(Integer)).to be true
+			expect([true, 5, nil].my_any?(Integer)).to be true
+		end
 	end
 
 	describe "#my_none?" do
@@ -163,39 +163,73 @@ describe Enumerable do
 	end
 
 	describe "#my_count" do
-			it 'returns the elements in the array that passed the condition' do
+		it 'returns the elements in the array that passed the condition' do
 			expect(array.my_count).to eql(5)
 		end
-			it 'returns the elements in the array that passed the condition' do
+
+		it 'returns the elements in the array that passed the condition' do
 			expect(hash.my_count(2)).to eql(0)
 		end
 		
-			it 'returns the elements in the array that passed the condition' do
+		it 'returns the elements in the array that passed the condition' do
 			expect(array.my_count(2)).to eql(2)
 		end
 
-			it "returns the elements in the array that are divisible by two without a remainder" do
+		it "returns the elements in the array that are divisible by two without a remainder" do
 			expect(array.my_count{ |x| x % 2 ==0 }).to eql(3)
 		end
 	end
 
 	describe "#my_map" do
-		  it 'returns to an Enumerator if block is not given' do
+		it 'returns to an Enumerator if block is not given' do
 			expect(array.my_map).to be_an(Enumerator)
 		end
 
-		  it 'returns the elements in the array that passed the condition in the block' do
+		it 'returns the elements in the array that passed the condition in the block' do
 			expect(array.my_map { |x| x * x }).to eql([1, 4, 9, 4, 16])
 		end
 
-		  it 'returns the elements in the array that passed the condition in the block' do
+		it 'returns the elements in the array that passed the condition in the block' do
 			expect(range.my_map { |x| x * x }).to eql([1, 4, 9, 16, 25, 36, 49, 64, 81, 100])
 		end
 
-		  it 'returns the elements in the array that passed the condition in the block' do
+		it 'returns the elements in the array that passed the condition in the block' do
 			expect(names.my_map { |x| x.upcase}).to eql( %w[KALU AHMAD DEFOE ROY] )
 		end
 
+		it 'returns the accumulated value in an array when a number and symbol is passed as argument and no block given' do
+			expect(range.my_map { "Kalu" }).to eql(["Kalu", "Kalu", "Kalu", "Kalu", "Kalu", "Kalu", "Kalu", "Kalu", "Kalu", "Kalu"])
+		end
+	end
+
+	describe "#my_inject" do
+		it 'returns first element in array when no argument is given and there is one variable in the block' do
+			expect(array.my_inject { |x| x }).to eql(1)
+		end
+
+		it 'returns the longest string in an array' do
+			expect(names.my_inject { |x, y| x.length > y.length ? x : y }).to eql("Defoe")
+		end
+
+		it 'returns first element in a range when no argument is given and there is one variable in the block' do
+			expect(range.my_inject { |x| x }).to eql(1)
+		end
+
+		it 'returns first element in a range when no argument is given and there is one variable in the block' do
+			expect(range.my_inject { |x| x }).to eql(1)
+		end
+
+		it 'returns the sum of the numbers in the array when a block is given' do
+			expect(range.my_inject { |x, y| x + y }).to eql(55)
+		end
+
+		it 'returns the sum of numbers in an array when a symbol is passed as an argument and no block given' do
+			expect(array.my_inject(:+)).to eql(12)
+		end
+
+		it 'returns the accumulated value in an array when a number and symbol is passed as argument and no block given' do
+			expect(array.my_inject(2, :*)).to eql(96)
+		end
 	end
 
 end
