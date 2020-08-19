@@ -273,7 +273,7 @@ describe Enumerable do
 
   describe '#hash_engine' do
     it 'returns self' do
-      expect({one: 1, two: 2}.hash_engine { |index| index }).to eql({one: 1, two: 2})
+      expect({ one: 1, two: 2 }.hash_engine { |index| index }).to eql({ one: 1, two: 2 })
     end
   end
 
@@ -291,15 +291,15 @@ describe Enumerable do
 
   describe '#class_check' do
     it 'returns the element that matches the argument passed if block is given' do
-      expect(array.class_check(1) {|x| x }).to eql([1])    
+      expect(array.class_check(1) { |x| x }).to eql([1])
     end
 
     it 'returns the element that matches the argument passed if block is given' do
-      expect(array.class_check(/t/) {|x| x }).to eql([])
+      expect(array.class_check(/t/) { |x| x }).to eql([])
     end
 
     it 'returns the element that matches the argument passed if block is given' do
-      expect(names.class_check("Kalu") {|x| x }).to eql(["Kalu"])    
+      expect(names.class_check('Kalu') { |x| x }).to eql(['Kalu'])
     end
 
     it 'returns the element in the array that matches the class passed in the argument and no block given' do
@@ -307,7 +307,27 @@ describe Enumerable do
     end
 
     it 'returns the element that matches the argument passed if block is given' do
-      expect(array.class_check(nil) {|x| x }).to eql([1, 2, 3, 2, 4])    
+      expect(array.class_check(nil) { |x| x }).to eql([1, 2, 3, 2, 4])
+    end
+  end
+
+  describe '#numeric_inclusion' do
+    it 'returns self if the argument passed in a given block is an Integer or Float or Complex number' do
+      expect(array.numeric_inclusion(Integer)).to eql([1, 2, 3, 2, 4])
+    end
+
+    it 'returns empty if the argument passed in a given block is not an Integer or Float or Complex number' do
+      expect(array.numeric_inclusion(String)).to eql([])
+    end
+  end
+
+  describe '#t_f_test' do
+    it 'returns true if the argument passed is neither nil or false and block is given' do
+      expect(array.t_f_test('kalu') { |x| x }).to be true
+    end
+
+    it 'returns true if the argument passed is neither nil or false and block is given' do
+      expect(array.t_f_test(false) { |x| x }).to be nil
     end
   end
 end

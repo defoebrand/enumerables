@@ -1,28 +1,30 @@
+# rubocop: disable Metrics/ModuleLength
+
 module Enumerable
   def hash_engine(&block)
     0.upto(length - 1) { |index| block.call(keys[index], values[index], index) }
     self
   end
-  
+
   def array_engine(&block)
     0.upto(length - 1) { |index| block.call(self[index]) }
     self
   end
-  
+
   def array_engine_with_index(&block)
     0.upto(length - 1) { |index| block.call(self[index], index) }
     self
   end
 
-	def range_engine(&block)
+  def range_engine(&block)
     array = [*self]
     0.upto(array.length - 1) { |index| block.call(array[index], index) }
     array
   end
-  
+
   def engine_select_block_check(index = nil, &block)
     return to_enum unless block_given?
-  
+
     if self.class == Hash
       hash_engine(&block)
     elsif self.class == Array
@@ -31,7 +33,7 @@ module Enumerable
       range_engine(&block)
     end
   end
-  
+
   def convert_to_array
     array = if self.class == Range
               [*self]
@@ -40,7 +42,7 @@ module Enumerable
             end
     array
   end
-  
+
   def class_check(arg)
     if arg.class == NilClass
       my_select { |x| x }
@@ -54,7 +56,7 @@ module Enumerable
       numeric_inclusion(arg)
     end
   end
-  
+
   def numeric_inclusion(arg_class)
     if arg_class == Numeric
       my_select { |arg| true if arg.class == Integer || arg.class == Float || arg.class == Complex }
@@ -62,12 +64,12 @@ module Enumerable
       my_select { |x| x.class == arg_class }
     end
   end
-  
+
   def t_f_test(arg, &block)
     var = block.call(arg)
     return true unless var.nil? || var == false
   end
-  
+
   def my_each(&block)
     return to_enum unless block_given?
 
@@ -170,3 +172,5 @@ end
 def multiply_els(variable)
   variable.my_inject(1) { |product, n| product * n }
 end
+
+# rubocop: enable Metrics/ModuleLength
