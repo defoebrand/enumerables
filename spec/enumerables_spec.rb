@@ -288,4 +288,26 @@ describe Enumerable do
       expect((0..10).range_engine { |index| index }).to eql([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
     end
   end
+
+  describe '#class_check' do
+    it 'returns the element that matches the argument passed if block is given' do
+      expect(array.class_check(1) {|x| x }).to eql([1])    
+    end
+
+    it 'returns the element that matches the argument passed if block is given' do
+      expect(array.class_check(/t/) {|x| x }).to eql([])
+    end
+
+    it 'returns the element that matches the argument passed if block is given' do
+      expect(names.class_check("Kalu") {|x| x }).to eql(["Kalu"])    
+    end
+
+    it 'returns the element in the array that matches the class passed in the argument and no block given' do
+      expect(names.class_check(String)).to eql(%w[Kalu Ahmad Defoe Roy])
+    end
+
+    it 'returns the element that matches the argument passed if block is given' do
+      expect(array.class_check(nil) {|x| x }).to eql([1, 2, 3, 2, 4])    
+    end
+  end
 end
