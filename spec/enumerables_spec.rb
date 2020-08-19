@@ -1,4 +1,4 @@
-require './enumerables'
+require_relative '../enumerables'
 
 describe Enumerable do
   let(:array) { [1, 2, 3, 2, 4] }
@@ -231,6 +231,61 @@ describe Enumerable do
   describe '#multiply_els' do
     it 'returns the result of the numbers multiplied in the argument given' do
       expect(multiply_els([2, 3, 4])).to eql(24)
+    end
+  end
+
+  # Helper methods tests
+  # Helper methods tests
+
+  describe '#engine_select_block_check' do
+    it 'returns to Enumerator if block is not given' do
+      expect(range.engine_select_block_check).to be_an(Enumerator)
+    end
+
+    it 'returns self if block is given' do
+      expect(array.engine_select_block_check { |index| index }).to eql(array)
+    end
+
+    it 'returns self if block is given' do
+      expect(hash.engine_select_block_check { |index| index }).to eql(hash)
+    end
+
+    it 'returns an array if block is given' do
+      expect(range.engine_select_block_check { |index| index }).to eql([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+    end
+  end
+
+  describe '#convert_to_array' do
+    it 'returns an array if a range is passsed without block given' do
+      expect(range.convert_to_array).to eql([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+    end
+
+    it 'returns self if a range is not passsed without block given' do
+      expect(hash.convert_to_array).to eql(hash)
+    end
+  end
+
+  describe '#array_engine' do
+    it 'returns self' do
+      expect([1, 2, 3, 2, 4].array_engine { |index| index }).to eql([1, 2, 3, 2, 4])
+    end
+  end
+
+  describe '#hash_engine' do
+    it 'returns self' do
+      expect({one: 1, two: 2}.hash_engine { |index| index }).to eql({one: 1, two: 2})
+    end
+  end
+
+  describe '#array_engine_with_index' do
+    it 'returns self' do
+      expect([1, 2, 3, 2, 4].array_engine_with_index { |index| index }).to eql([1, 2, 3, 2, 4])
+    end
+  end
+
+  describe '#range_engine' do
+    it 'returns self' do
+      expect((0..10).range_engine { |index| index }).to eql([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
     end
   end
 end

@@ -1,73 +1,73 @@
-def hash_engine(&block)
-  0.upto(length - 1) { |index| block.call(keys[index], values[index], index) }
-  self
-end
-
-def array_engine(&block)
-  0.upto(length - 1) { |index| block.call(self[index]) }
-  self
-end
-
-def array_engine_with_index(&block)
-  0.upto(length - 1) { |index| block.call(self[index], index) }
-  self
-end
-
-def range_engine(&block)
-  array = [*self]
-  0.upto(array.length - 1) { |index| block.call(array[index], index) }
-  array
-end
-
-def engine_select_block_check(index = nil, &block)
-  return to_enum unless block_given?
-
-  if self.class == Hash
-    hash_engine(&block)
-  elsif self.class == Array
-    index ? array_engine_with_index(&block) : array_engine(&block)
-  elsif self.class == Range
-    range_engine(&block)
-  end
-end
-
-def convert_to_array
-  array = if self.class == Range
-            [*self]
-          else
-            self
-          end
-  array
-end
-
-def class_check(arg)
-  if arg.class == NilClass
-    my_select { |x| x }
-  elsif arg.class == Regexp
-    my_select { |x| x.to_s.match?(arg) }
-  elsif arg.class == String
-    my_select { |x| x.include?(arg) }
-  elsif arg.class == Integer
-    my_select { |x| x == arg }
-  elsif arg.class == Class
-    numeric_inclusion(arg)
-  end
-end
-
-def numeric_inclusion(arg_class)
-  if arg_class == Numeric
-    my_select { |arg| true if arg.class == Integer || arg.class == Float || arg.class == Complex }
-  else
-    my_select { |x| x.class == arg_class }
-  end
-end
-
-def t_f_test(arg, &block)
-  var = block.call(arg)
-  return true unless var.nil? || var == false
-end
-
 module Enumerable
+  def hash_engine(&block)
+    0.upto(length - 1) { |index| block.call(keys[index], values[index], index) }
+    self
+  end
+  
+  def array_engine(&block)
+    0.upto(length - 1) { |index| block.call(self[index]) }
+    self
+  end
+  
+  def array_engine_with_index(&block)
+    0.upto(length - 1) { |index| block.call(self[index], index) }
+    self
+  end
+
+	def range_engine(&block)
+    array = [*self]
+    0.upto(array.length - 1) { |index| block.call(array[index], index) }
+    array
+  end
+  
+  def engine_select_block_check(index = nil, &block)
+    return to_enum unless block_given?
+  
+    if self.class == Hash
+      hash_engine(&block)
+    elsif self.class == Array
+      index ? array_engine_with_index(&block) : array_engine(&block)
+    elsif self.class == Range
+      range_engine(&block)
+    end
+  end
+  
+  def convert_to_array
+    array = if self.class == Range
+              [*self]
+            else
+              self
+            end
+    array
+  end
+  
+  def class_check(arg)
+    if arg.class == NilClass
+      my_select { |x| x }
+    elsif arg.class == Regexp
+      my_select { |x| x.to_s.match?(arg) }
+    elsif arg.class == String
+      my_select { |x| x.include?(arg) }
+    elsif arg.class == Integer
+      my_select { |x| x == arg }
+    elsif arg.class == Class
+      numeric_inclusion(arg)
+    end
+  end
+  
+  def numeric_inclusion(arg_class)
+    if arg_class == Numeric
+      my_select { |arg| true if arg.class == Integer || arg.class == Float || arg.class == Complex }
+    else
+      my_select { |x| x.class == arg_class }
+    end
+  end
+  
+  def t_f_test(arg, &block)
+    var = block.call(arg)
+    return true unless var.nil? || var == false
+  end
+  
   def my_each(&block)
     return to_enum unless block_given?
 
