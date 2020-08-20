@@ -35,7 +35,9 @@ _git clone <https://github.com/defoebrand/enumerables.git>_
 
 _cd enumerables_
 
-**Step 3**: Run the program from command line, open it in irb, or edit it in a text editor
+**Step 3**: Run the program from command line using the command below, open it in irb, or edit it in a text editor
+
+_ruby enumerables.rb_
 
 ## To Test
 
@@ -46,6 +48,12 @@ _Visit this site <https://repl.it/@defoebrand/enumerables#test.rb>_
 **Step 2**:
 
 _Click run_
+
+## Testing with Rspec
+
+**Step 1**: Use the following command to run the test with Rspec
+
+Run _rspec_ in the project directory.
 
 ## Author
 
